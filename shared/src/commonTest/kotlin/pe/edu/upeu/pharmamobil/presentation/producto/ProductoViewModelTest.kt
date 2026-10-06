@@ -63,7 +63,7 @@ class ProductoViewModelTest {
             nuevoViewModel(repositorio).uiState.value.fase
         )
 
-        assertEquals("S/ 12.50", fase.productos.first().precio)
+        assertEquals("S/ 12.50", fase.productos.first().precio.replace('\u00A0', ' '))
         assertEquals("5 u.", fase.productos.first().stock)
         assertTrue(fase.productos.first().requiereReposicion)
     }
@@ -124,3 +124,4 @@ class ProductoViewModelTest {
         )
     }
 }
+
