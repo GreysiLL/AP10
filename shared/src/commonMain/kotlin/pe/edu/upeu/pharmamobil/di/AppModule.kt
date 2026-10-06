@@ -30,6 +30,7 @@ val domainModule = module {
 }
 
 val presentationModule = module {
+    viewModel { pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel(get(), get()) }
     viewModel { ProductoViewModel(get(), get()) }
     viewModel { ClienteViewModel(get(), get()) }
 }

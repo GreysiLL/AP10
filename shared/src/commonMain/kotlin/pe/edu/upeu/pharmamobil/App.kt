@@ -35,6 +35,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -88,6 +90,8 @@ fun App() = KoinContext {
         mutableStateOf<Screen>(Screen.Inicio)
     }
 
+    var detalleId by rememberSaveable { mutableStateOf<Long?>(null) }
+
     var darkTheme by rememberSaveable {
         mutableStateOf(false)
     }
@@ -128,6 +132,7 @@ fun App() = KoinContext {
                             onClick = {
 
                                 pantallaActual = destino.screen
+                                detalleId = null
 
                                 scope.launch {
                                     drawerState.close()
@@ -167,7 +172,7 @@ fun App() = KoinContext {
 
                         title = {
                             Text(
-                                text = tituloDe(pantallaActual)
+                                text = if (detalleId != null) "Detalle del producto" else tituloDe(pantallaActual)
                             )
                         },
 
@@ -215,10 +220,20 @@ fun App() = KoinContext {
                                 }
                             )
 
-                        Screen.Productos ->
-                            ProductoScreen(
-                                viewModel = koinViewModel()
-                            )
+                        Screen.Productos -> {
+                            val id = detalleId
+                            pe.edu.upeu.pharmamobil.platform.AtrasDetalle(id != null) { detalleId = null }
+                            if (id == null) ProductoScreen(
+                                viewModel = koinViewModel(), onAbrirDetalle = { detalleId = it }
+                            ) else {
+                                val vm: pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel = koinViewModel()
+                                val estado by vm.uiState.collectAsState()
+                                LaunchedEffect(id) { vm.cargar(id) }
+                                pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoScreen(
+                                    estado, { detalleId = null }, { vm.cargar(id) }, vm::compartir
+                                )
+                            }
+                        }
 
                         Screen.Clientes ->
                             ClienteScreen(
