@@ -64,3 +64,29 @@ Rama solicitada: `feature/expect-actual-duran`, desde `develop`. Ejecutar `inici
 ### Prueba manual Android confirmada
 
 La ejecución del usuario confirmó la instalación de PharmaMobil y el selector nativo con el texto «galleta — S/ 3.50 — Stock: 3». Evidencia: [selector Android](docs/SESION09/android-compartir.png). Esto confirma compartir en Android; iOS y la conexión REST siguen pendientes.
+
+
+## Sesión 7: consumo GET con Ktor
+
+Ktor 3.6.0 y kotlinx.serialization consumen PharmaSoft con un HttpClient único inyectado por Koin.
+
+| Plataforma | Motor | URL base |
+|---|---|---|
+| Emulador Android | OkHttp | http://10.0.2.2:8080/api/v1/ |
+| Simulador iOS en Mac | Darwin | http://localhost:8080/api/v1/ |
+
+Endpoint: `GET productos?pagina=0&tamanio=20`. La sesión carga la primera página (20 productos).
+La respuesta se deserializa como `PaginaResponseDto<ProductoResponseDto>`: contenido, pagina, tamanio, totalElementos, totalPaginas y ultima.
+ProductoResponseDto: id, nombre, precio, stock, estado, categoriaId y categoriaNombre. Se ignoran campos adicionales, como las fechas.
+El mapper entrega Producto al dominio sin dependencias de Ktor ni anotaciones de serialización.
+
+Mantener Docker (Oracle healthy) y PharmaSoft en el puerto 8080 abiertos. Ejecutar Android, entrar a Productos y comprobar los tres productos de prueba.
+En Logcat filtrar `Ktor:` para ver GET y respuesta 200. Crear otro producto en Swagger y volver a entrar a Productos.
+Desactivar la conexión del emulador y pulsar Reintentar para verificar el mensaje de error.
+El registro desde la app sigue guardando en memoria y no aparece en el listado REST: el POST corresponde a la sesión 8.
+HTTP se autoriza únicamente para los hosts locales indicados. En producción usar HTTPS.
+La verificación de iOS requiere Mac y Xcode; preparar el código en Windows no acredita ejecución en iOS.
+
+Verificación en Windows: powershell -NoProfile -ExecutionPolicy Bypass -File .\verificar-sesion07.ps1
+OkHttp se fija en 5.3.2 con su BOM para mantener compileSdk 36: OkHttp 5.5 requiere SDK 37.
+

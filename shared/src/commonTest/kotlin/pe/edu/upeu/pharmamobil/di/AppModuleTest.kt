@@ -9,7 +9,13 @@ import org.koin.core.Koin
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import pe.edu.upeu.pharmamobil.data.repository.ClienteRepositorioEnMemoria
-import pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioEnMemoria
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respond
+import io.ktor.http.HttpHeaders
+import io.ktor.http.headersOf
+import org.koin.dsl.module
+import pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioRest
 import pe.edu.upeu.pharmamobil.domain.repository.ClienteRepository
 import pe.edu.upeu.pharmamobil.domain.repository.ProductoRepository
 import pe.edu.upeu.pharmamobil.domain.usecase.ListarClientesUseCase
@@ -48,7 +54,12 @@ class AppModuleTest {
     }
 
     private fun grafoCompleto(): Koin = startKoin {
-        modules(dataModule, domainModule, presentationModule, platformModule)
+        modules(dataModule, domainModule, presentationModule, platformModule, module {
+            single<HttpClientEngine> { MockEngine {
+                respond("""{"contenido":[],"pagina":0,"tamanio":20,"totalElementos":0,"totalPaginas":0,"ultima":true}""",
+                    headers = headersOf(HttpHeaders.ContentType, "application/json"))
+            } }
+        })
     }.koin
 
     @Test
@@ -56,7 +67,7 @@ class AppModuleTest {
 
         val koin = grafoCompleto()
 
-        assertIs<ProductoRepositorioEnMemoria>(koin.get<ProductoRepository>())
+        assertIs<ProductoRepositorioRest>(koin.get<ProductoRepository>())
         assertIs<ClienteRepositorioEnMemoria>(koin.get<ClienteRepository>())
     }
 
