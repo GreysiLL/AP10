@@ -102,7 +102,7 @@ class ProductoViewModel(
                         it.copy(
                             registrando = false,
                             formulario = FormularioProducto(),
-                            mensajeExito = "Producto \"${producto.nombre}\" registrado correctamente"
+                            mensajeExito = "Producto \"${producto.nombre}\" registrado en memoria (sesión 7)"
                         )
                     }
                     cargarProductos()

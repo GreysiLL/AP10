@@ -1,10 +1,16 @@
 package pe.edu.upeu.pharmamobil.di
 
+import io.ktor.client.HttpClient
+import org.koin.core.qualifier.named
+import pe.edu.upeu.pharmamobil.data.remote.crearHttpClient
+import pe.edu.upeu.pharmamobil.data.remote.ProductoApi
+import pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioRest
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
+import org.koin.dsl.onClose
 import pe.edu.upeu.pharmamobil.data.repository.ClienteRepositorioEnMemoria
 import pe.edu.upeu.pharmamobil.data.repository.ProductoRepositorioEnMemoria
 import pe.edu.upeu.pharmamobil.domain.repository.ClienteRepository
@@ -18,7 +24,10 @@ import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 
 
 val dataModule = module {
-    single<ProductoRepository> { ProductoRepositorioEnMemoria() }
+    single<HttpClient> { crearHttpClient(get(), get(named("urlBase"))) } onClose { it?.close() }
+    single { ProductoApi(get()) }
+    single { ProductoRepositorioEnMemoria() }
+    single<ProductoRepository> { ProductoRepositorioRest(get(), get()) }
     single<ClienteRepository> { ClienteRepositorioEnMemoria() }
 }
 

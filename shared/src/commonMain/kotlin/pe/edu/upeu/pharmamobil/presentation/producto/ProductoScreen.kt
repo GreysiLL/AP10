@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -42,6 +43,12 @@ fun ProductoScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(viewModel) {
+        if (viewModel.uiState.value.fase != ProductoUiState.Fase.Cargando) {
+            viewModel.cargarProductos()
+        }
+    }
 
     Column(
         modifier = modifier
@@ -93,7 +100,7 @@ fun ProductoScreen(
                     EstadoVacio(
                         icono = Icons.Default.Inventory2,
                         titulo = "Todavía no hay productos",
-                        descripcion = "Registra el primero con el formulario de arriba.",
+                        descripcion = "Todavía no hay productos en PharmaSoft.",
                         modifier = Modifier.align(Alignment.Center)
                     )
 
