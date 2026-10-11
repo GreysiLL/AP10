@@ -29,7 +29,7 @@ class DetalleProductoViewModel(
         producto = null
         carga = viewModelScope.launch {
             try {
-                producto = repository.listar().find { it.id == id }
+                producto = repository.obtener(id)
                 mutable.value = DetalleProductoUiState(cargando = false, producto = producto?.aUi())
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) {

@@ -23,6 +23,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,6 +48,10 @@ fun ProductoScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var porEliminar by remember { mutableStateOf<ProductoUi?>(null) }
+    porEliminar?.let { p ->
+        AlertDialog(onDismissRequest = { porEliminar = null }, title = { Text("Eliminar producto") }, text = { Text("¿Eliminar ${p.nombre} del inventario?") }, confirmButton = { TextButton(onClick = { porEliminar = null; viewModel.eliminar(p.id) }) { Text("Eliminar") } }, dismissButton = { TextButton(onClick = { porEliminar = null }) { Text("Cancelar") } })
+    }
 
     LaunchedEffect(viewModel) {
         if (viewModel.uiState.value.fase != ProductoUiState.Fase.Cargando) {
@@ -63,13 +72,19 @@ fun ProductoScreen(
             onNombreChange = viewModel::onNombreChange,
             onPrecioChange = viewModel::onPrecioChange,
             onStockChange = viewModel::onStockChange,
-            onRegistrar = viewModel::registrar
+            onRegistrar = viewModel::registrar,
+            onCancelar = viewModel::cancelarEdicion
         )
 
         uiState.mensajeExito?.let {
             MensajeExito(it)
         }
 
+        (uiState.operacion as? ProductoUiState.Operacion.Fallida)?.let { error ->
+            Text(error.mensaje, color = MaterialTheme.colorScheme.error)
+            TextButton(onClick = viewModel::cargarProductos) { Text("Actualizar listado") }
+        }
+        if (uiState.operacion is ProductoUiState.Operacion.EnCurso) Text("Operación en curso…")
         EncabezadoInventario(uiState.fase)
 
         Box(
@@ -112,7 +127,7 @@ fun ProductoScreen(
                             items = fase.productos,
                             key = { it.id }
                         ) { producto ->
-                            ProductoItem(producto, onAbrir = { onAbrirDetalle(producto.id) })
+                            ProductoItem(producto, onAbrir = { onAbrirDetalle(producto.id) }, ocupado = uiState.registrando, onEditar = { viewModel.editar(producto.id) }, onEliminar = { porEliminar = producto })
                         }
                     }
 
@@ -142,7 +157,8 @@ private fun FormularioProductoCard(
     onNombreChange: (String) -> Unit,
     onPrecioChange: (String) -> Unit,
     onStockChange: (String) -> Unit,
-    onRegistrar: () -> Unit
+    onRegistrar: () -> Unit,
+    onCancelar: () -> Unit
 ) {
 
     Card(
@@ -155,7 +171,7 @@ private fun FormularioProductoCard(
         ) {
 
             Text(
-                text = "Registrar producto",
+                text = if (formulario.idEdicion == null) "Registrar producto" else "Editar producto #${formulario.idEdicion}",
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -199,8 +215,9 @@ private fun FormularioProductoCard(
                 enabled = !registrando,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(if (registrando) "Registrando…" else "Registrar")
+                Text(if (registrando) "Guardando…" else if (formulario.idEdicion != null) "Guardar cambios" else "Registrar")
             }
+            if (formulario.idEdicion != null) TextButton(enabled = !registrando, onClick = onCancelar) { Text("Cancelar edición") }
         }
     }
 }
@@ -239,7 +256,10 @@ private fun EncabezadoInventario(
 @Composable
 private fun ProductoItem(
     producto: ProductoUi,
-    onAbrir: () -> Unit
+    onAbrir: () -> Unit,
+    ocupado: Boolean,
+    onEditar: () -> Unit,
+    onEliminar: () -> Unit
 ) {
 
     Card(
@@ -284,6 +304,10 @@ private fun ProductoItem(
                 )
             }
 
+            Column {
+                TextButton(enabled = !ocupado, onClick = onEditar) { Text("Editar") }
+                TextButton(enabled = !ocupado, onClick = onEliminar) { Text("Eliminar") }
+            }
             if (producto.requiereReposicion) {
 
                 Surface(
