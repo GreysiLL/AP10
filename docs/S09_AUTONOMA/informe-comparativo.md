@@ -1,0 +1,25 @@
+### 1. Formato de moneda y resultado observado
+
+En PharmaMobil, commonMain declara formatearSoles(valor: Double): String en platform/Formato.kt. Android resuelve esa firma mediante NumberFormat.getCurrencyInstance(Locale("es", "PE")); iOS utiliza NSNumberFormatter, NSNumberFormatterCurrencyStyle y NSLocale("es_PE"). El locale identifica la convención solicitada, pero no obliga a dos bibliotecas distintas a devolver una secuencia idéntica de caracteres. Android utiliza su implementación de internacionalización del entorno Java; iOS utiliza Foundation. También influyen las versiones del sistema y sus datos regionales. Por eso la comparación debe observar símbolos, separadores y espacios, además del valor numérico.
+
+El emulador Android 16 mostró literalmente «S/ 4.50» para Paracetamol 500 mg. La extracción de la interfaz permite identificar el carácter entre la barra y el número: es U+00A0, un espacio de no separación, aunque visualmente parece un espacio ordinario. Este resultado proviene de la función real usada por el detalle, no de un texto escrito manualmente. No se obtuvo un resultado literal en iOS porque no hay acceso a macOS y Xcode. No sería correcto afirmar que Foundation produjo «S/4.50» sin ejecutarlo. El código iOS está preparado y el informe deja esa observación pendiente.
+
+### 2. Context en Android y presentación en UIKit
+
+CompartidorAndroid recibe un Context para iniciar un Intent.ACTION_SEND, con MIME text/plain y EXTRA_TEXT. platformModule.android.kt entrega androidContext() mediante Koin. Como ese contexto pertenece a la aplicación, la apertura del selector incorpora FLAG_ACTIVITY_NEW_TASK. Esta dependencia refleja el modelo de componentes de Android: iniciar una actividad necesita un contexto desde el que solicitar al sistema la navegación. El detalle común solamente llama compartir(texto); no maneja actividades ni conoce esas constantes.
+
+CompartidorIos no recibe un Context porque UIKit presenta controladores desde otro controlador. Su implementación busca una UIWindowScene activa, su ventana principal y el controlador que puede presentar la hoja. Construye UIActivityViewController y configura el popover para iPad antes de presentarlo. Koin registra CompartidorIos() sin contexto Android. Eso no significa que iOS carezca de dependencias de entorno: requiere una ventana y un presentador activos. La diferencia está en cómo obtiene el entorno de presentación. La captura Android demuestra el texto y el selector; el comportamiento UIKit aún requiere ejecución real.
+
+### 3. expect/actual frente a una interfaz inyectada
+
+El propio proyecto combina ambas estrategias. Compartidor es una interfaz ordinaria de dominio, no una declaración expect; sus implementaciones se seleccionan en platformModule, que sí es expect/actual. Esto permite probar DetalleProductoViewModel con un compartidor falso y comprobar el texto sin abrir un selector. El acoplamiento del caso de uso queda limitado al contrato de compartir, mientras las clases nativas permanecen en sus source sets.
+
+Para formatearSoles se eligió una función expect porque la operación es pequeña y su llamada resulta directa y legible. Una interfaz FormateadorMoneda con inyección permitiría sustituir el formato en pruebas y agregar políticas distintas, pero exigiría una instancia y registros adicionales. InfoDispositivo sigue el patrón expect class indicado en la guía, con propiedades String que Compose puede mostrar sin tipos nativos. Esa elección simplifica una lectura local; si luego necesitáramos simular versiones o refrescar datos complejos, una interfaz inyectada podría facilitar las pruebas. Ninguna estrategia elimina la necesidad de aislar las APIs específicas.
+
+### 4. Error real al retirar un actual
+
+Se comentó temporalmente el contenido de Formato.android.kt y se ejecutó :shared:compileAndroidMain en la rama de esta actividad. El compilador informó exactamente: «Expected formatearSoles has no actual declaration in module <commonMain> for JVM». El registro completo conserva la ruta Formato.kt:3:1 y BUILD FAILED. El contrato común existía, pero Android no tenía una implementación que pudiera enlazar. Se restauró el archivo inmediatamente y se volvió a compilar: BUILD SUCCESSFUL. El APK usado para las capturas contiene el actual completo; el cambio deliberadamente incorrecto no quedó en el repositorio.
+
+### 5. Qué debe permanecer común
+
+La validación de productos y la traducción de errores REST no deberían duplicarse por plataforma. Validar nombre, precio y stock responde a reglas de PharmaMobil, no a Build.VERSION ni a UIKit. Lo mismo ocurre con ErrorApi, los DTO y las transiciones del ViewModel: Android e iOS deben interpretar las mismas respuestas de PharmaSoft y conservar el mismo comportamiento del formulario. Duplicar estas reglas permitiría que una plataforma aceptara un producto que la otra rechaza. El criterio aplicado es mantener común la decisión de negocio y mover solamente el acceso a capacidades del sistema. La búsqueda de importaciones android. y platform. en commonMain dio cero coincidencias.
