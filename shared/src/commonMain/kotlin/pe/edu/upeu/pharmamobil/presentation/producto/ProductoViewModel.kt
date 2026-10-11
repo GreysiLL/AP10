@@ -87,8 +87,8 @@ class ProductoViewModel(
    is ErrorApiException -> (fallo.error as? ErrorApi.Validacion)?.porCampo
    else -> null
   }
-  if(campos!=null) _uiState.update { it.copy(operacion=ProductoUiState.Operacion.Inactiva,formulario=it.formulario.copy(nombreError=campos["nombre"],precioError=campos["precio"],stockError=campos["stock"])) }
-  else _uiState.update { it.copy(operacion=ProductoUiState.Operacion.Fallida(mensaje(fallo))) }
+  if(campos!=null && campos.keys.any { it in setOf("nombre", "precio", "stock") }) _uiState.update { it.copy(operacion=ProductoUiState.Operacion.Inactiva,formulario=it.formulario.copy(nombreError=campos["nombre"],precioError=campos["precio"],stockError=campos["stock"])) }
+  else _uiState.update { it.copy(operacion=ProductoUiState.Operacion.Fallida(if(campos!=null) campos.values.filterNotNull().joinToString(". ").ifBlank { mensaje(fallo) } else mensaje(fallo))) }
  }
  private fun mensaje(fallo: Throwable): String = (fallo as? ErrorApiException)?.let { mensajeDe(it.error) } ?: fallo.message ?: "No se pudo completar la operación."
 }

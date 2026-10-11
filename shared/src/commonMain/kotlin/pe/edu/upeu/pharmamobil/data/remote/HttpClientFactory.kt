@@ -23,7 +23,7 @@ fun crearHttpClient(
 ): HttpClient = HttpClient(engine) {
     expectSuccess = true
     install(ContentNegotiation) {
-        json(Json { this.ignoreUnknownKeys = ignoreUnknownKeys; isLenient = true })
+        json(Json { this.ignoreUnknownKeys = ignoreUnknownKeys; encodeDefaults = true; isLenient = true })
     }
     install(Logging) {
         logger = object : Logger {
