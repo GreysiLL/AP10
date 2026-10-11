@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocalPharmacy
 import androidx.compose.material.icons.filled.Medication
@@ -70,7 +71,8 @@ private val DESTINOS = listOf(
     Destino(Screen.Inicio, "Inicio", Icons.Default.Home),
     Destino(Screen.Productos, "Productos", Icons.Default.Medication),
     Destino(Screen.Clientes, "Clientes", Icons.Default.Person),
-    Destino(Screen.Pedidos, "Pedidos", Icons.Default.ShoppingCart)
+    Destino(Screen.Pedidos, "Pedidos", Icons.Default.ShoppingCart),
+    Destino(Screen.Acerca, "Acerca de", Icons.Default.Info)
 )
 
 
@@ -234,6 +236,9 @@ fun App() = KoinContext {
                                 )
                             }
                         }
+
+                        Screen.Acerca ->
+                            pe.edu.upeu.pharmamobil.presentation.acerca.AcercaScreen()
 
                         Screen.Clientes ->
                             ClienteScreen(
