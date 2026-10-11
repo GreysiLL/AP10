@@ -26,21 +26,25 @@ import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 val dataModule = module {
     single<HttpClient> { crearHttpClient(get(), get(named("urlBase"))) } onClose { it?.close() }
     single { ProductoApi(get()) }
+    single<pe.edu.upeu.pharmamobil.domain.repository.DiagnosticoConexion> { pe.edu.upeu.pharmamobil.data.remote.DiagnosticoConexionRest(get(), get(named("urlBase"))) }
     single { ProductoRepositorioEnMemoria() }
-    single<ProductoRepository> { ProductoRepositorioRest(get(), get()) }
+    single<ProductoRepository> { ProductoRepositorioRest(get(), 1L) }
     single<ClienteRepository> { ClienteRepositorioEnMemoria() }
 }
 
 val domainModule = module {
     factory { RegistrarProductoUseCase(get()) }
     factory { ListarProductosUseCase(get()) }
+    factory { pe.edu.upeu.pharmamobil.domain.usecase.ObtenerProductoUseCase(get()) }
+    factory { pe.edu.upeu.pharmamobil.domain.usecase.ActualizarProductoUseCase(get()) }
+    factory { pe.edu.upeu.pharmamobil.domain.usecase.EliminarProductoUseCase(get()) }
     factory { RegistrarClienteUseCase(get()) }
     factory { ListarClientesUseCase(get()) }
 }
 
 val presentationModule = module {
     viewModel { pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel(get(), get()) }
-    viewModel { ProductoViewModel(get(), get()) }
+    viewModel { ProductoViewModel(get(), get(), get(), get(), get()) }
     viewModel { ClienteViewModel(get(), get()) }
 }
 
@@ -58,3 +62,4 @@ fun initKoin(configuracionAdicional: KoinApplication.() -> Unit = {}) {
         )
     }
 }
+

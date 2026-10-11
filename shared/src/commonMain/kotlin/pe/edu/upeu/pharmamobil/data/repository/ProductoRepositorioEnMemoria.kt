@@ -35,10 +35,25 @@ class ProductoRepositorioEnMemoria : ProductoRepository {
     override suspend fun listar(): List<Producto> {
         delay(RETARDO_LISTADO_MS)
         return candado.withLock {
-            productos.toList()
+            productos.filter { it.estado }
         }
     }
 
+    override suspend fun obtener(id: Long): Producto = candado.withLock {
+        productos.firstOrNull { it.id == id } ?: throw pe.edu.upeu.pharmamobil.domain.error.ErrorApiException(pe.edu.upeu.pharmamobil.domain.error.ErrorApi.NoEncontrado)
+    }
+    override suspend fun actualizar(producto: Producto): Producto = candado.withLock {
+        val index = productos.indexOfFirst { it.id == producto.id }
+        if (index < 0) throw pe.edu.upeu.pharmamobil.domain.error.ErrorApiException(pe.edu.upeu.pharmamobil.domain.error.ErrorApi.NoEncontrado)
+        productos[index] = producto
+        producto
+    }
+    override suspend fun eliminar(id: Long) { candado.withLock {
+        val index = productos.indexOfFirst { it.id == id }
+        if (index < 0) throw pe.edu.upeu.pharmamobil.domain.error.ErrorApiException(pe.edu.upeu.pharmamobil.domain.error.ErrorApi.NoEncontrado)
+        if (!productos[index].estado) throw pe.edu.upeu.pharmamobil.domain.error.ErrorApiException(pe.edu.upeu.pharmamobil.domain.error.ErrorApi.Conflicto("El producto ya está inactivo."))
+        productos[index] = productos[index].copy(estado = false)
+    } }
     private companion object {
         const val RETARDO_REGISTRO_MS = 400L
         const val RETARDO_LISTADO_MS = 600L

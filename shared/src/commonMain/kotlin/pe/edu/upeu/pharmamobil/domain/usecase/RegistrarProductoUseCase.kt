@@ -26,7 +26,8 @@ class RegistrarProductoUseCase(
     suspend operator fun invoke(
         nombre: String,
         precio: String,
-        stock: String
+        stock: String,
+        productoExistente: Producto? = null
     ): Result<Producto> {
 
         val errores = ErroresDeProducto(
@@ -40,14 +41,16 @@ class RegistrarProductoUseCase(
         }
 
         return resultadoDe {
-            productoRepository.registrar(
-                Producto(
-                    id = 0L,
+            val producto = Producto(
+                    id = productoExistente?.id ?: 0L,
                     nombre = nombre.trim(),
                     precio = precio.toDouble(),
-                    stock = stock.toInt()
+                    stock = stock.toInt(),
+                    estado = productoExistente?.estado ?: true,
+                    categoriaId = productoExistente?.categoriaId
                 )
-            )
+            if (productoExistente == null) productoRepository.registrar(producto)
+            else productoRepository.actualizar(producto)
         }
     }
 

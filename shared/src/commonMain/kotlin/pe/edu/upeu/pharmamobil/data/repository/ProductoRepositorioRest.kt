@@ -1,25 +1,21 @@
 package pe.edu.upeu.pharmamobil.data.repository
-import io.ktor.client.plugins.ResponseException
-import kotlinx.coroutines.CancellationException
-import pe.edu.upeu.pharmamobil.data.mapper.toDomain
+import pe.edu.upeu.pharmamobil.data.mapper.*
 import pe.edu.upeu.pharmamobil.data.remote.ProductoApi
 import pe.edu.upeu.pharmamobil.domain.model.Producto
 import pe.edu.upeu.pharmamobil.domain.repository.ProductoRepository
-
-class ProductoRepositorioRest(
-    private val api: ProductoApi,
-    private val respaldoLocal: ProductoRepositorioEnMemoria
-) : ProductoRepository {
-    override suspend fun listar(): List<Producto> = try {
-        api.listar().contenido.map { it.toDomain() }
-    } catch (e: CancellationException) {
-        throw e
-    } catch (e: ResponseException) {
-        throw IllegalStateException("El servidor respondió con error ${e.response.status.value}. Intenta nuevamente.", e)
-    } catch (e: Exception) {
-        throw IllegalStateException("No se pudo cargar el inventario. Comprueba la conexión y que PharmaSoft esté funcionando.", e)
-    }
-
-    // Sesión 7: POST remoto se implementa en la sesión 8.
-    override suspend fun registrar(producto: Producto): Producto = respaldoLocal.registrar(producto)
+class ProductoRepositorioRest(private val api: ProductoApi, private val categoriaPorDefecto: Long) : ProductoRepository {
+ override suspend fun listar(): List<Producto> {
+  val productos = mutableListOf<Producto>()
+  var numero = 0
+  do {
+   val pagina = api.listar(numero, 100)
+   productos.addAll(pagina.contenido.filter { it.estado }.map { it.toDomain() })
+   numero++
+  } while (!pagina.ultima)
+  return productos
+ }
+ override suspend fun obtener(id: Long): Producto = api.obtener(id).toDomain()
+ override suspend fun registrar(producto: Producto): Producto = api.crear(producto.toRequest(categoriaPorDefecto)).toDomain()
+ override suspend fun actualizar(producto: Producto): Producto = api.actualizar(producto.id, producto.toRequest(categoriaPorDefecto)).toDomain()
+ override suspend fun eliminar(id: Long) = api.eliminar(id)
 }
