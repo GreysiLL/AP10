@@ -26,6 +26,7 @@ import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 val dataModule = module {
     single<HttpClient> { crearHttpClient(get(), get(named("urlBase"))) } onClose { it?.close() }
     single { ProductoApi(get()) }
+    single<pe.edu.upeu.pharmamobil.domain.repository.PruebasErrores> { pe.edu.upeu.pharmamobil.data.remote.PruebasErroresRest(get(), get(named("urlBase"))) }
     single<pe.edu.upeu.pharmamobil.domain.repository.DiagnosticoConexion> { pe.edu.upeu.pharmamobil.data.remote.DiagnosticoConexionRest(get(), get(named("urlBase"))) }
     single { ProductoRepositorioEnMemoria() }
     single<ProductoRepository> { ProductoRepositorioRest(get(), 1L) }

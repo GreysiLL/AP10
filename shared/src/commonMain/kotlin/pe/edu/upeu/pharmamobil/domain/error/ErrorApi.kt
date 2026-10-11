@@ -8,7 +8,7 @@ sealed interface ErrorApi {
  data object TiempoAgotado : ErrorApi
  data object RespuestaInvalida : ErrorApi
 }
-class ErrorApiException(val error: ErrorApi) : Exception(mensajeDe(error))
+class ErrorApiException(val error: ErrorApi, val codigoHttp: Int? = null) : Exception(mensajeDe(error))
 fun mensajeDe(error: ErrorApi): String = when(error) {
  is ErrorApi.Validacion -> "Revisa los campos indicados."
  ErrorApi.NoEncontrado -> "Producto no encontrado."

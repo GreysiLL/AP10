@@ -56,6 +56,15 @@ class CrudProductoTest {
    finally { client.close();engine.close() }
   }
  }
+ @Test fun conflictoConValidationErrorsNullConservaMensajeReal() = runTest {
+  val engine=MockEngine { respond("""{"timestamp":"2026-10-11T17:38:04","status":409,"error":"Conflict","message":"Ya existe un producto con el nombre Prueba","path":"/api/v1/productos","validationErrors":null}""",HttpStatusCode.Conflict,headers) }
+  val client=crearHttpClient(engine,"http://localhost/api/v1/")
+  try {
+   val e=assertFailsWith<ErrorApiException> { ProductoApi(client).crear(ProductoRequestDto("Prueba",2.5,5,categoriaId=1)) }
+   assertEquals(ErrorApi.Conflicto("Ya existe un producto con el nombre Prueba"),e.error)
+   assertEquals(409,e.codigoHttp)
+  } finally { client.close();engine.close() }
+ }
  @Test fun listaTodasLasPaginasYOcultaLaBajaLogica() = runTest {
   val engine=MockEngine { req ->
    val pagina=req.url.parameters["pagina"]!!.toInt()

@@ -17,13 +17,13 @@ suspend fun <T> ejecutarLlamada(bloque: suspend () -> T): Result<T> = try {
  catch(c: CancellationException) { throw c }
  catch(_: Exception) { null }
  val error = when(e.response.status.value) {
-  400 -> if (cuerpo?.validationErrors.isNullOrEmpty()) ErrorApi.Conflicto(cuerpo?.message ?: "Solicitud no válida.") else ErrorApi.Validacion(cuerpo!!.validationErrors)
+  400 -> if (cuerpo?.validationErrors.isNullOrEmpty()) ErrorApi.Conflicto(cuerpo?.message ?: "Solicitud no válida.") else ErrorApi.Validacion(cuerpo!!.validationErrors.orEmpty())
   404 -> ErrorApi.NoEncontrado
   409 -> ErrorApi.Conflicto(cuerpo?.message ?: "Operación no permitida.")
   else -> ErrorApi.Servidor
  }
- Result.failure(ErrorApiException(error))
-} catch(e: ServerResponseException) { Result.failure(ErrorApiException(ErrorApi.Servidor))
+ Result.failure(ErrorApiException(error, e.response.status.value))
+} catch(e: ServerResponseException) { Result.failure(ErrorApiException(ErrorApi.Servidor, e.response.status.value))
 } catch(e: HttpRequestTimeoutException) { Result.failure(ErrorApiException(ErrorApi.TiempoAgotado))
 } catch(e: ConnectTimeoutException) { Result.failure(ErrorApiException(ErrorApi.TiempoAgotado))
 } catch(e: SocketTimeoutException) { Result.failure(ErrorApiException(ErrorApi.TiempoAgotado))

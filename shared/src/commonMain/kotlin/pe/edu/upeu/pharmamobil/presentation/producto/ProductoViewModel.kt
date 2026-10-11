@@ -3,6 +3,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Job
 import pe.edu.upeu.pharmamobil.domain.error.*
 import pe.edu.upeu.pharmamobil.domain.model.Producto
 import pe.edu.upeu.pharmamobil.domain.usecase.*
@@ -16,10 +17,13 @@ class ProductoViewModel(
  private val _uiState = MutableStateFlow(ProductoUiState())
  val uiState: StateFlow<ProductoUiState> = _uiState.asStateFlow()
  private var seleccionado: Producto? = null
+ private var carga: Job? = null
+ private var operacion: Job? = null
  init { cargarProductos() }
  fun cargarProductos() {
   if (_uiState.value.registrando) return
-  viewModelScope.launch {
+  carga?.cancel()
+  carga = viewModelScope.launch {
    _uiState.update { it.copy(fase = ProductoUiState.Fase.Cargando) }
    recargar()
   }
@@ -48,7 +52,7 @@ class ProductoViewModel(
  fun editar(id: Long) {
   if(_uiState.value.registrando) return
   _uiState.update { it.copy(operacion=ProductoUiState.Operacion.EnCurso(ProductoUiState.Operacion.Tipo.Obtener,id),mensajeExito=null) }
-  viewModelScope.launch {
+  operacion = viewModelScope.launch {
    obtenerProducto(id).onSuccess { p ->
     seleccionado=p
     _uiState.update { it.copy(formulario=FormularioProducto(nombre=p.nombre,precio=p.precio.toString(),stock=p.stock.toString(),idEdicion=p.id),operacion=ProductoUiState.Operacion.Inactiva) }
@@ -61,7 +65,7 @@ class ProductoViewModel(
   val existente=seleccionado
   val tipo=if(existente==null) ProductoUiState.Operacion.Tipo.Crear else ProductoUiState.Operacion.Tipo.Actualizar
   _uiState.update { it.copy(operacion=ProductoUiState.Operacion.EnCurso(tipo,existente?.id),mensajeExito=null) }
-  viewModelScope.launch {
+  operacion = viewModelScope.launch {
    val result=if(existente==null) registrarProducto(f.nombre,f.precio,f.stock) else actualizarProducto(existente,f.nombre,f.precio,f.stock)
    result.onSuccess { producto ->
     seleccionado=null
@@ -73,13 +77,18 @@ class ProductoViewModel(
  fun eliminar(id: Long) {
   if(_uiState.value.registrando) return
   _uiState.update { it.copy(operacion=ProductoUiState.Operacion.EnCurso(ProductoUiState.Operacion.Tipo.Eliminar,id),mensajeExito=null) }
-  viewModelScope.launch {
+  operacion = viewModelScope.launch {
    eliminarProducto(id).onSuccess {
     if(seleccionado?.id==id) { seleccionado=null;_uiState.update { it.copy(formulario=FormularioProducto()) } }
     _uiState.update { it.copy(mensajeExito="Producto eliminado") }
     if(recargar()) _uiState.update { it.copy(operacion=ProductoUiState.Operacion.Inactiva) }
    }.onFailure(::manejarFallo)
   }
+ }
+ fun cancelarOperaciones() {
+  carga?.cancel()
+  operacion?.cancel()
+  _uiState.update { it.copy(operacion=ProductoUiState.Operacion.Inactiva, fase=if(it.fase==ProductoUiState.Fase.Cargando) ProductoUiState.Fase.SinProductos else it.fase) }
  }
  private fun manejarFallo(fallo: Throwable) {
   val campos=when(fallo) {
