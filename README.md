@@ -113,3 +113,21 @@ iOS no ejecutado por falta de Mac/Xcode; no se acredita esa evidencia.
 Entrega práctica S08: https://github.com/GreysiLL/act.prac-2/tree/feature/crud-productos-duran
 
 Verificación final: 63 pruebas Android host sin fallos; CRUD real y error400 ejecutados en el emulador. [Capturas, bitácora y logs](docs/SESION08/VERIFICACION.md). Tres productos activos antes/después; producto de prueba eliminado lógicamente. Publicar la rama: `powershell -NoProfile -ExecutionPolicy Bypass -File .\subir-practica08.ps1`.
+
+
+## Código específico de plataforma
+
+Actividad autónoma 09: [inventario completo](docs/S09_AUTONOMA/inventario.md) y [comparación de 677 palabras](docs/S09_AUTONOMA/informe-comparativo.md).
+
+- Moneda: `expect fun formatearSoles`; Android NumberFormat e iOS NSNumberFormatter.
+- Información del dispositivo: `expect class InfoDispositivo`; Android Build.VERSION.RELEASE e iOS UIDevice. Visible en el menú **Acerca de**.
+- Inyección y conectividad: `expect val platformModule`; Koin configura OkHttp/Context y Darwin sin Context Android.
+- Navegación atrás: `expect fun AtrasDetalle`; Android BackHandler, iOS botón Volver de la pantalla común.
+- Compartir: interfaz común `Compartidor` con implementaciones Intent.ACTION_SEND y UIActivityViewController, seleccionadas mediante Koin.
+
+Todas las rutas exactas y APIs están en el inventario. commonMain no importa android. ni platform.
+APK compilado y ejecutado en Pixel 9 API36: precio literal `S/ 4.50` (espacio U+00A0), selector y Android versión 16. 69 pruebas aprobadas.
+Se retiró temporalmente el actual Android del formato y se registró el fallo real; después se restauró y se compiló correctamente.
+iOS: código implementado, sin compilación ni capturas por falta de Mac/Xcode. Resultado literal del formato Foundation pendiente; no se afirma equivalencia verificada.
+
+Repositorio de esta actividad: https://github.com/GreysiLL/SE3AA/tree/feature/autonoma09-duran

@@ -1,0 +1,47 @@
+[
+  {
+    "capacidad": "Moneda",
+    "firma": "expect fun formatearSoles(valor: Double): String",
+    "common": "shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.kt",
+    "android": "shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.android.kt",
+    "ios": "shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.ios.kt",
+    "apiAndroid": "NumberFormat + Locale(es, PE)",
+    "apiIos": "NSNumberFormatter + NSLocale(es_PE)"
+  },
+  {
+    "capacidad": "Información del dispositivo",
+    "firma": "expect class InfoDispositivo() { val sistema: String; val version: String }",
+    "common": "shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/platform/InfoDispositivo.kt",
+    "android": "shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/InfoDispositivo.android.kt",
+    "ios": "shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/InfoDispositivo.ios.kt",
+    "apiAndroid": "Build.VERSION.RELEASE",
+    "apiIos": "UIDevice.systemName y systemVersion"
+  },
+  {
+    "capacidad": "Inyección y red",
+    "firma": "expect val platformModule: Module",
+    "common": "shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/di/AppModule.kt",
+    "android": "shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/di/PlatformModule.android.kt",
+    "ios": "shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/di/PlatformModule.ios.kt",
+    "apiAndroid": "Koin androidContext, OkHttp, 10.0.2.2",
+    "apiIos": "Koin sin Context, Darwin, localhost"
+  },
+  {
+    "capacidad": "Atrás en detalle",
+    "firma": "@Composable expect fun AtrasDetalle(habilitado: Boolean, volver: () -> Unit)",
+    "common": "shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/platform/AtrasDetalle.kt",
+    "android": "shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/AtrasDetalle.android.kt",
+    "ios": "shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/AtrasDetalle.ios.kt",
+    "apiAndroid": "BackHandler de Activity Compose",
+    "apiIos": "Sin interceptor: botón Volver común"
+  },
+  {
+    "capacidad": "Compartir (interfaz con DI)",
+    "firma": "interface Compartidor { fun compartir(texto: String) }",
+    "common": "shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/domain/platform/Compartidor.kt",
+    "android": "shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/CompartidorAndroid.kt",
+    "ios": "shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/CompartidorIos.kt",
+    "apiAndroid": "Intent.ACTION_SEND, Context, EXTRA_TEXT",
+    "apiIos": "UIActivityViewController, UIWindowScene"
+  }
+]
