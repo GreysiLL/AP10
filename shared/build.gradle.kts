@@ -43,7 +43,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             // OkHttp 5.5 exige SDK 37; conservamos compatibilidad con SDK 36.
-            implementation(enforcedPlatform(libs.okhttp.bom))
+            implementation(project.dependencies.enforcedPlatform(libs.okhttp.bom))
             implementation(libs.ktor.client.okhttp)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)

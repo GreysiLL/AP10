@@ -1,0 +1,128 @@
+--------- beginning of main
+10-11 21:55:27.270  2402  2970 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20
+10-11 21:55:27.270  2402  2970 I System.out: METHOD: GET
+10-11 21:55:27.270  2402  2970 I System.out: COMMON HEADERS
+10-11 21:55:27.270  2402  2970 I System.out: -> Accept: application/json
+10-11 21:55:27.270  2402  2970 I System.out: -> Content-Type: application/json
+10-11 21:55:27.271  2402  2970 I System.out: CONTENT HEADERS
+10-11 21:55:27.271  2402  2970 I System.out: -> Content-Length: 0
+10-11 21:55:27.271  2402  2970 I System.out: BODY Content-Type: null
+10-11 21:55:27.271  2402  2970 I System.out: BODY START
+10-11 21:55:27.271  2402  2970 I System.out: 
+10-11 21:55:27.271  2402  2970 I System.out: BODY END
+10-11 21:55:32.451  2402  2402 I System.out: Ktor: RESPONSE: 200 
+10-11 21:55:32.451  2402  2402 I System.out: METHOD: GET
+10-11 21:55:32.451  2402  2402 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20
+10-11 21:55:32.451  2402  2402 I System.out: COMMON HEADERS
+10-11 21:55:32.451  2402  2402 I System.out: -> connection: keep-alive
+10-11 21:55:32.452  2402  2402 I System.out: -> content-type: application/json
+10-11 21:55:32.452  2402  2402 I System.out: -> date: Sun, 11 Oct 2026 21:55:32 GMT
+10-11 21:55:32.452  2402  2402 I System.out: -> keep-alive: timeout=60
+10-11 21:55:32.452  2402  2402 I System.out: -> transfer-encoding: chunked
+10-11 21:55:32.452  2402  2402 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 21:55:32.452  2402  2402 I System.out: BODY Content-Type: application/json
+10-11 21:55:32.452  2402  2402 I System.out: BODY START
+10-11 21:55:32.452  2402  2402 I System.out: {"contenido":[{"id":1,"nombre":"Paracetamol 500 mg","precio":4.5,"stock":120,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:45:39.588859","fechaModificacion":null},{"id":2,"nombre":"Ibuprofeno 400 mg","precio":6.8,"stock":80,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:45:39.672464","fechaModificacion":null},{"id":3,"nombre":"Naproxeno 550 mg","precio":8.5,"stock":60,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:45:39.73848","fechaModificacion":null},{"id":21,"nombre":"Prueba S07 20261011164619 actualizado","precio":2.5,"stock":7,"estado":false,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-11T16:46:19.544634","fechaModificacion":"2026-10-11T16:46:19.862638"}],"pagina":0,"tamanio":20,"totalElementos":4,"totalPaginas":1,"ultima":true}
+10-11 21:55:32.453  2402  2402 I System.out: BODY END
+10-11 21:56:31.941  2402  2970 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos/9223372036854775807
+10-11 21:56:31.943  2402  2970 I System.out: METHOD: GET
+10-11 21:56:31.943  2402  2970 I System.out: COMMON HEADERS
+10-11 21:56:31.943  2402  2970 I System.out: -> Accept: application/json
+10-11 21:56:31.943  2402  2970 I System.out: -> Content-Type: application/json
+10-11 21:56:31.943  2402  2970 I System.out: CONTENT HEADERS
+10-11 21:56:31.943  2402  2970 I System.out: -> Content-Length: 0
+10-11 21:56:31.943  2402  2970 I System.out: BODY Content-Type: null
+10-11 21:56:31.943  2402  2970 I System.out: BODY START
+10-11 21:56:31.944  2402  2970 I System.out: 
+10-11 21:56:31.944  2402  2970 I System.out: BODY END
+10-11 21:56:32.421  2402  2402 I System.out: Ktor: RESPONSE: 404 
+10-11 21:56:32.421  2402  2402 I System.out: METHOD: GET
+10-11 21:56:32.421  2402  2402 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos/9223372036854775807
+10-11 21:56:32.421  2402  2402 I System.out: COMMON HEADERS
+10-11 21:56:32.422  2402  2402 I System.out: -> connection: keep-alive
+10-11 21:56:32.422  2402  2402 I System.out: -> content-type: application/json
+10-11 21:56:32.422  2402  2402 I System.out: -> date: Sun, 11 Oct 2026 21:56:32 GMT
+10-11 21:56:32.422  2402  2402 I System.out: -> keep-alive: timeout=60
+10-11 21:56:32.422  2402  2402 I System.out: -> transfer-encoding: chunked
+10-11 21:56:32.422  2402  2402 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 21:56:32.422  2402  2402 I System.out: BODY Content-Type: application/json
+10-11 21:56:32.422  2402  2402 I System.out: BODY START
+10-11 21:56:32.422  2402  2402 I System.out: {"timestamp":"2026-10-11T16:56:32.4433106","status":404,"error":"Not Found","message":"Producto no encontrado con id: 9223372036854775807","path":"/api/v1/productos/9223372036854775807","validationErrors":null}
+10-11 21:56:32.422  2402  2402 I System.out: BODY END
+10-11 21:56:41.249  2402  4755 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20
+10-11 21:56:41.249  2402  4755 I System.out: METHOD: GET
+10-11 21:56:41.249  2402  4755 I System.out: COMMON HEADERS
+10-11 21:56:41.249  2402  4755 I System.out: -> Accept: application/json
+10-11 21:56:41.249  2402  4755 I System.out: -> Content-Type: application/json
+10-11 21:56:41.249  2402  4755 I System.out: CONTENT HEADERS
+10-11 21:56:41.249  2402  4755 I System.out: -> Content-Length: 0
+10-11 21:56:41.249  2402  4755 I System.out: BODY Content-Type: null
+10-11 21:56:41.249  2402  4755 I System.out: BODY START
+10-11 21:56:41.249  2402  4755 I System.out: 
+10-11 21:56:41.249  2402  4755 I System.out: BODY END
+10-11 21:56:41.581  2402  2402 I System.out: Ktor: REQUEST http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20 failed with exception: java.net.ConnectException: Failed to connect to /10.0.2.2:8080
+10-11 21:56:49.708  2402  2969 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20
+10-11 21:56:49.708  2402  2969 I System.out: METHOD: GET
+10-11 21:56:49.708  2402  2969 I System.out: COMMON HEADERS
+10-11 21:56:49.708  2402  2969 I System.out: -> Accept: application/json
+10-11 21:56:49.708  2402  2969 I System.out: -> Content-Type: application/json
+10-11 21:56:49.708  2402  2969 I System.out: CONTENT HEADERS
+10-11 21:56:49.708  2402  2969 I System.out: -> Content-Length: 0
+10-11 21:56:49.709  2402  2969 I System.out: BODY Content-Type: null
+10-11 21:56:49.709  2402  2969 I System.out: BODY START
+10-11 21:56:49.709  2402  2969 I System.out: 
+10-11 21:56:49.709  2402  2969 I System.out: BODY END
+10-11 21:56:49.979  2402  2402 I System.out: Ktor: REQUEST http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20 failed with exception: java.util.concurrent.CancellationException: Request timeout has expired [url=http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20, request_timeout=1 ms]
+10-11 21:56:58.760  2402  3873 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20
+10-11 21:56:58.760  2402  3873 I System.out: METHOD: GET
+10-11 21:56:58.760  2402  3873 I System.out: COMMON HEADERS
+10-11 21:56:58.760  2402  3873 I System.out: -> Accept: application/json
+10-11 21:56:58.760  2402  3873 I System.out: -> Content-Type: application/json
+10-11 21:56:58.760  2402  3873 I System.out: CONTENT HEADERS
+10-11 21:56:58.760  2402  3873 I System.out: -> Content-Length: 0
+10-11 21:56:58.760  2402  3873 I System.out: BODY Content-Type: null
+10-11 21:56:58.760  2402  3873 I System.out: BODY START
+10-11 21:56:58.761  2402  3873 I System.out: 
+10-11 21:56:58.761  2402  3873 I System.out: BODY END
+10-11 21:56:59.846  2402  2402 I System.out: Ktor: RESPONSE: 200 
+10-11 21:56:59.846  2402  2402 I System.out: METHOD: GET
+10-11 21:56:59.846  2402  2402 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20
+10-11 21:56:59.846  2402  2402 I System.out: COMMON HEADERS
+10-11 21:56:59.846  2402  2402 I System.out: -> connection: keep-alive
+10-11 21:56:59.846  2402  2402 I System.out: -> content-type: application/json
+10-11 21:56:59.846  2402  2402 I System.out: -> date: Sun, 11 Oct 2026 21:56:59 GMT
+10-11 21:56:59.846  2402  2402 I System.out: -> keep-alive: timeout=60
+10-11 21:56:59.846  2402  2402 I System.out: -> transfer-encoding: chunked
+10-11 21:56:59.847  2402  2402 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 21:56:59.847  2402  2402 I System.out: BODY Content-Type: application/json
+10-11 21:56:59.847  2402  2402 I System.out: BODY START
+10-11 21:56:59.847  2402  2402 I System.out: {"contenido":[{"id":1,"nombre":"Paracetamol 500 mg","precio":4.5,"stock":120,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:45:39.588859","fechaModificacion":null},{"id":2,"nombre":"Ibuprofeno 400 mg","precio":6.8,"stock":80,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:45:39.672464","fechaModificacion":null},{"id":3,"nombre":"Naproxeno 550 mg","precio":8.5,"stock":60,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:45:39.73848","fechaModificacion":null},{"id":21,"nombre":"Prueba S07 20261011164619 actualizado","precio":2.5,"stock":7,"estado":false,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-11T16:46:19.544634","fechaModificacion":"2026-10-11T16:46:19.862638"}],"pagina":0,"tamanio":20,"totalElementos":4,"totalPaginas":1,"ultima":true}
+10-11 21:56:59.847  2402  2402 I System.out: BODY END
+10-11 21:56:59.877  2402  2402 I System.out: Ktor: RESPONSE http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20 failed with exception: io.ktor.serialization.JsonConvertException: Illegal input: Unexpected JSON token at offset 140: Encountered an unknown key 'fechaCreacion' at path: $.contenido[0]
+10-11 21:56:59.886  2402  2402 I System.out: Use 'ignoreUnknownKeys = true' in 'Json {}' builder or '@JsonIgnoreUnknownKeys' annotation to ignore unknown keys.
+10-11 21:56:59.886  2402  2402 I System.out: JSON input: .....tegoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:.....
+10-11 21:56:59.910  2402  3873 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20
+10-11 21:56:59.919  2402  3873 I System.out: METHOD: GET
+10-11 21:56:59.920  2402  3873 I System.out: COMMON HEADERS
+10-11 21:56:59.920  2402  3873 I System.out: -> Accept: application/json
+10-11 21:56:59.920  2402  3873 I System.out: -> Content-Type: application/json
+10-11 21:56:59.920  2402  3873 I System.out: CONTENT HEADERS
+10-11 21:56:59.920  2402  3873 I System.out: -> Content-Length: 0
+10-11 21:56:59.920  2402  3873 I System.out: BODY Content-Type: null
+10-11 21:56:59.920  2402  3873 I System.out: BODY START
+10-11 21:56:59.920  2402  3873 I System.out: 
+10-11 21:56:59.920  2402  3873 I System.out: BODY END
+10-11 21:57:00.055  2402  2402 I System.out: Ktor: RESPONSE: 200 
+10-11 21:57:00.071  2402  2402 I System.out: METHOD: GET
+10-11 21:57:00.075  2402  2402 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=20
+10-11 21:57:00.075  2402  2402 I System.out: COMMON HEADERS
+10-11 21:57:00.075  2402  2402 I System.out: -> connection: keep-alive
+10-11 21:57:00.075  2402  2402 I System.out: -> content-type: application/json
+10-11 21:57:00.075  2402  2402 I System.out: -> date: Sun, 11 Oct 2026 21:57:00 GMT
+10-11 21:57:00.075  2402  2402 I System.out: -> keep-alive: timeout=60
+10-11 21:57:00.076  2402  2402 I System.out: -> transfer-encoding: chunked
+10-11 21:57:00.076  2402  2402 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 21:57:00.076  2402  2402 I System.out: BODY Content-Type: application/json
+10-11 21:57:00.076  2402  2402 I System.out: BODY START
+10-11 21:57:00.076  2402  2402 I System.out: {"contenido":[{"id":1,"nombre":"Paracetamol 500 mg","precio":4.5,"stock":120,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:45:39.588859","fechaModificacion":null},{"id":2,"nombre":"Ibuprofeno 400 mg","precio":6.8,"stock":80,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:45:39.672464","fechaModificacion":null},{"id":3,"nombre":"Naproxeno 550 mg","precio":8.5,"stock":60,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-09T16:45:39.73848","fechaModificacion":null},{"id":21,"nombre":"Prueba S07 20261011164619 actualizado","precio":2.5,"stock":7,"estado":false,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-11T16:46:19.544634","fechaModificacion":"2026-10-11T16:46:19.862638"}],"pagina":0,"tamanio":20,"totalElementos":4,"totalPaginas":1,"ultima":true}
+10-11 21:57:00.076  2402  2402 I System.out: BODY END

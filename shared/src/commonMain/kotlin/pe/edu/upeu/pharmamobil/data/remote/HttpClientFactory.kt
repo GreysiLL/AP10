@@ -14,20 +14,26 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-fun crearHttpClient(engine: HttpClientEngine, urlBase: String): HttpClient = HttpClient(engine) {
+fun crearHttpClient(
+    engine: HttpClientEngine,
+    urlBase: String,
+    requestTimeoutMillis: Long = 15_000,
+    ignoreUnknownKeys: Boolean = true,
+    nivelLog: LogLevel = LogLevel.HEADERS
+): HttpClient = HttpClient(engine) {
     expectSuccess = true
     install(ContentNegotiation) {
-        json(Json { ignoreUnknownKeys = true; isLenient = true })
+        json(Json { this.ignoreUnknownKeys = ignoreUnknownKeys; isLenient = true })
     }
     install(Logging) {
         logger = object : Logger {
             override fun log(message: String) { println("Ktor: $message") }
         }
-        level = LogLevel.HEADERS
+        level = nivelLog
         sanitizeHeader { it == HttpHeaders.Authorization }
     }
     install(HttpTimeout) {
-        requestTimeoutMillis = 15_000
+        this.requestTimeoutMillis = requestTimeoutMillis
         connectTimeoutMillis = 10_000
     }
     defaultRequest {

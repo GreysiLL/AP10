@@ -7,6 +7,8 @@ import pe.edu.upeu.pharmamobil.data.remote.dto.PaginaResponseDto
 import pe.edu.upeu.pharmamobil.data.remote.dto.ProductoResponseDto
 
 class ProductoApi(private val client: HttpClient) {
+    suspend fun buscar(id: Long): ProductoResponseDto = client.get("productos/$id").body()
+
     suspend fun listar(pagina: Int = 0, tamanio: Int = 20): PaginaResponseDto<ProductoResponseDto> =
         client.get("productos") {
             parameter("pagina", pagina)

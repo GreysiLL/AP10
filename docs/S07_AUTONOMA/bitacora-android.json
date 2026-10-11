@@ -1,0 +1,37 @@
+{
+  "PC-01": {
+    "fechaLima": "2026-10-11T16:55:25.867231-05:00",
+    "plataforma": "Android - Pixel 9 (2), API 36",
+    "resultado": "1. GET exitoso\nCUMPLE: HTTP 200 · 4 productos\nParacetamol 500 mg · S/ 4.5 · stock 120\nIbuprofeno 400 mg · S/ 6.8 · stock 80\nNaproxeno 550 mg · S/ 8.5 · stock 60\nPrueba S07 20261011164619 actualizado · S/ 2.5 · stock 7",
+    "captura": "capturas/PC-01.png",
+    "conclusion": "El resultado observado corresponde al escenario esperado."
+  },
+  "PC-02": {
+    "fechaLima": "2026-10-11T16:56:31.825145-05:00",
+    "plataforma": "Android - Pixel 9 (2), API 36",
+    "resultado": "2. Recurso inexistente\nCUMPLE: ClientRequestException · HTTP 404\nMensaje: Producto no encontrado. La interfaz sigue operativa.",
+    "captura": "capturas/PC-02.png",
+    "conclusion": "El resultado observado corresponde al escenario esperado."
+  },
+  "PC-03": {
+    "fechaLima": "2026-10-11T16:56:41.230858-05:00",
+    "plataforma": "Android - Pixel 9 (2), API 36",
+    "resultado": "3. Sin conexión\nCUMPLE: ConnectException → ConnectException → ErrnoException\nMensaje: Sin conexión. Comprueba tu conexión e intenta nuevamente. La interfaz sigue operativa.",
+    "captura": "capturas/PC-03.png",
+    "conclusion": "El resultado observado corresponde al escenario esperado."
+  },
+  "PC-04": {
+    "fechaLima": "2026-10-11T16:56:49.647601-05:00",
+    "plataforma": "Android - Pixel 9 (2), API 36",
+    "resultado": "4. Tiempo de espera\nCUMPLE: HttpRequestTimeoutException · límite 1 ms\nMensaje: La solicitud tardó demasiado. Intenta nuevamente. La interfaz sigue operativa.",
+    "captura": "capturas/PC-04.png",
+    "conclusion": "El resultado observado corresponde al escenario esperado."
+  },
+  "PC-05": {
+    "fechaLima": "2026-10-11T16:56:58.741146-05:00",
+    "plataforma": "Android - Pixel 9 (2), API 36",
+    "resultado": "5. Campo desconocido\nCUMPLE: ignoreUnknownKeys=false produjo JsonConvertException → JsonDecodingException.\nCon true: HTTP 200, 4 productos.\nMensaje: los campos adicionales no interrumpen la carga.",
+    "captura": "capturas/PC-05.png",
+    "conclusion": "El resultado observado corresponde al escenario esperado."
+  }
+}

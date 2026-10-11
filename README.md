@@ -63,7 +63,7 @@ Rama solicitada: `feature/expect-actual-duran`, desde `develop`. Ejecutar `inici
 
 ### Prueba manual Android confirmada
 
-La ejecución del usuario confirmó la instalación de PharmaMobil y el selector nativo con el texto «galleta — S/ 3.50 — Stock: 3». Evidencia: [selector Android](docs/SESION09/android-compartir.png). Esto confirma compartir en Android; iOS y la conexión REST siguen pendientes.
+La ejecución del usuario confirmó la instalación de PharmaMobil y el selector nativo con el texto «galleta — S/ 3.50 — Stock: 3». Evidencia: [selector Android](docs/SESION09/android-compartir.png). Esto confirma compartir en Android. Este registro es anterior a las pruebas REST de S07 documentadas más abajo; iOS sigue sin ejecutarse.
 
 
 ## Sesión 7: consumo GET con Ktor
@@ -90,3 +90,22 @@ La verificación de iOS requiere Mac y Xcode; preparar el código en Windows no 
 Verificación en Windows: powershell -NoProfile -ExecutionPolicy Bypass -File .\verificar-sesion07.ps1
 OkHttp se fija en 5.3.2 con su BOM para mantener compileSdk 36: OkHttp 5.5 requiere SDK 37.
 
+
+
+## Conectividad REST
+
+Actividad autónoma S07: [catálogo, DTO y bitácora](docs/S07_AUTONOMA/actividad-autonoma.md).
+Los cinco endpoints de productos se ejecutaron contra PharmaSoft; [resultados HTTP completos](docs/S07_AUTONOMA/endpoints-ejecutados.json).
+Base Android: http://10.0.2.2:8080/api/v1/. Base iOS: http://localhost:8080/api/v1/ en la Mac del backend.
+GET /productos devuelve página; POST devuelve 201; PUT devuelve 200; DELETE devuelve 204 y aplica baja lógica.
+La Activity debug PruebasConexionActivity permite reproducir éxito, 404, desconexión, timeout de 1 ms y JSON estricto/tolerante.
+Abrir después de instalar debug: `adb shell am start -n pe.edu.upeu.pharmamobil/.PruebasConexionActivity`.
+Para PC-03 activar modo avión y desactivar Wi-Fi antes de ejecutar. Guardar Logcat filtrado por `Ktor:` y las capturas.
+Los registros deben distinguir pruebas HTTP del backend, pruebas Ktor automatizadas y ejecución visual del emulador.
+La evidencia iOS requiere una ejecución real en Mac/Xcode.
+
+Repositorio de entrega S07 autónoma: https://github.com/GreysiLL/AA
+
+Las cinco pruebas de conexión pasaron en Android (Pixel 9, API 36). [Bitácora real](docs/S07_AUTONOMA/bitacora-android.json), [registro Ktor](docs/S07_AUTONOMA/ktor-android.log) e [informe PDF](docs/S07_AUTONOMA/S07_ActividadAutonoma_Duran_Castro.pdf).
+
+iOS: no ejecutado por falta de Mac/Xcode. Esta evidencia queda pendiente.

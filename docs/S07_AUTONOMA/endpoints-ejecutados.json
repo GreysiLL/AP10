@@ -1,0 +1,488 @@
+[
+  {
+    "fechaLima": "2026-10-11T16:46:18.244805-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Listado real",
+    "metodo": "GET",
+    "ruta": "/productos?pagina=0&tamanio=20",
+    "cuerpoSolicitud": null,
+    "status": 200,
+    "esperado": 200,
+    "respuesta": {
+      "contenido": [
+        {
+          "id": 1,
+          "nombre": "Paracetamol 500 mg",
+          "precio": 4.5,
+          "stock": 120,
+          "estado": true,
+          "categoriaId": 1,
+          "categoriaNombre": "Analgésicos",
+          "fechaCreacion": "2026-10-09T16:45:39.588859",
+          "fechaModificacion": null
+        },
+        {
+          "id": 2,
+          "nombre": "Ibuprofeno 400 mg",
+          "precio": 6.8,
+          "stock": 80,
+          "estado": true,
+          "categoriaId": 1,
+          "categoriaNombre": "Analgésicos",
+          "fechaCreacion": "2026-10-09T16:45:39.672464",
+          "fechaModificacion": null
+        },
+        {
+          "id": 3,
+          "nombre": "Naproxeno 550 mg",
+          "precio": 8.5,
+          "stock": 60,
+          "estado": true,
+          "categoriaId": 1,
+          "categoriaNombre": "Analgésicos",
+          "fechaCreacion": "2026-10-09T16:45:39.73848",
+          "fechaModificacion": null
+        }
+      ],
+      "pagina": 0,
+      "tamanio": 20,
+      "totalElementos": 3,
+      "totalPaginas": 1,
+      "ultima": true
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.077499-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Categoría disponible",
+    "metodo": "GET",
+    "ruta": "/categorias",
+    "cuerpoSolicitud": null,
+    "status": 200,
+    "esperado": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Analgésicos",
+        "descripcion": "Alivio del dolor",
+        "estado": true,
+        "fechaCreacion": "2026-10-09T16:45:39.300986",
+        "fechaModificacion": null
+      }
+    ],
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.112153-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Detalle existente",
+    "metodo": "GET",
+    "ruta": "/productos/1",
+    "cuerpoSolicitud": null,
+    "status": 200,
+    "esperado": 200,
+    "respuesta": {
+      "id": 1,
+      "nombre": "Paracetamol 500 mg",
+      "precio": 4.5,
+      "stock": 120,
+      "estado": true,
+      "categoriaId": 1,
+      "categoriaNombre": "Analgésicos",
+      "fechaCreacion": "2026-10-09T16:45:39.588859",
+      "fechaModificacion": null
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.155240-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Detalle inexistente",
+    "metodo": "GET",
+    "ruta": "/productos/9223372036854775807",
+    "cuerpoSolicitud": null,
+    "status": 404,
+    "esperado": 404,
+    "respuesta": {
+      "timestamp": "2026-10-11T16:46:19.1784903",
+      "status": 404,
+      "error": "Not Found",
+      "message": "Producto no encontrado con id: 9223372036854775807",
+      "path": "/api/v1/productos/9223372036854775807",
+      "validationErrors": null
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.186835-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Identificador no numérico",
+    "metodo": "GET",
+    "ruta": "/productos/abc",
+    "cuerpoSolicitud": null,
+    "status": 400,
+    "esperado": 400,
+    "respuesta": {
+      "timestamp": "2026-10-11T16:46:19.1968347",
+      "status": 400,
+      "error": "Bad Request",
+      "message": "El parámetro 'id' tiene un formato inválido",
+      "path": "/api/v1/productos/abc",
+      "validationErrors": {
+        "id": "Valor inválido: 'abc'"
+      }
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.207366-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Paginación inválida",
+    "metodo": "GET",
+    "ruta": "/productos?pagina=-1",
+    "cuerpoSolicitud": null,
+    "status": 409,
+    "esperado": 409,
+    "respuesta": {
+      "timestamp": "2026-10-11T16:46:19.23255",
+      "status": 409,
+      "error": "Conflict",
+      "message": "La página no puede ser negativa",
+      "path": "/api/v1/productos",
+      "validationErrors": null
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.239908-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Crear producto exclusivo de prueba",
+    "metodo": "POST",
+    "ruta": "/productos",
+    "cuerpoSolicitud": {
+      "nombre": "Prueba S07 20261011164619",
+      "precio": 1.25,
+      "stock": 5,
+      "estado": true,
+      "categoriaId": 1
+    },
+    "status": 201,
+    "esperado": 201,
+    "respuesta": {
+      "id": 21,
+      "nombre": "Prueba S07 20261011164619",
+      "precio": 1.25,
+      "stock": 5,
+      "estado": true,
+      "categoriaId": 1,
+      "categoriaNombre": "Analgésicos",
+      "fechaCreacion": "2026-10-11T16:46:19.5446339",
+      "fechaModificacion": null
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.665705-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Nombre duplicado",
+    "metodo": "POST",
+    "ruta": "/productos",
+    "cuerpoSolicitud": {
+      "nombre": "Prueba S07 20261011164619",
+      "precio": 1.25,
+      "stock": 5,
+      "estado": true,
+      "categoriaId": 1
+    },
+    "status": 409,
+    "esperado": 409,
+    "respuesta": {
+      "timestamp": "2026-10-11T16:46:19.6804581",
+      "status": 409,
+      "error": "Conflict",
+      "message": "Ya existe un producto con el nombre Prueba S07 20261011164619",
+      "path": "/api/v1/productos",
+      "validationErrors": null
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.684330-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Validación de cuerpo",
+    "metodo": "POST",
+    "ruta": "/productos",
+    "cuerpoSolicitud": {
+      "nombre": "",
+      "precio": 0,
+      "stock": -1,
+      "estado": true,
+      "categoriaId": 1
+    },
+    "status": 400,
+    "esperado": 400,
+    "respuesta": {
+      "timestamp": "2026-10-11T16:46:19.7023394",
+      "status": 400,
+      "error": "Bad Request",
+      "message": "Existen errores de validación",
+      "path": "/api/v1/productos",
+      "validationErrors": {
+        "nombre": "El nombre del producto es obligatorio",
+        "precio": "El precio debe ser mayor que cero",
+        "stock": "El stock no puede ser negativo"
+      }
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.707918-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Actualizar producto de prueba",
+    "metodo": "PUT",
+    "ruta": "/productos/21",
+    "cuerpoSolicitud": {
+      "nombre": "Prueba S07 20261011164619 actualizado",
+      "precio": 2.5,
+      "stock": 7,
+      "estado": true,
+      "categoriaId": 1
+    },
+    "status": 200,
+    "esperado": 200,
+    "respuesta": {
+      "id": 21,
+      "nombre": "Prueba S07 20261011164619 actualizado",
+      "precio": 2.5,
+      "stock": 7,
+      "estado": true,
+      "categoriaId": 1,
+      "categoriaNombre": "Analgésicos",
+      "fechaCreacion": "2026-10-11T16:46:19.544634",
+      "fechaModificacion": "2026-10-11T16:46:19.7518187"
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.785229-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Actualización inválida",
+    "metodo": "PUT",
+    "ruta": "/productos/21",
+    "cuerpoSolicitud": {
+      "nombre": "",
+      "precio": 0,
+      "stock": -1,
+      "estado": true,
+      "categoriaId": 1
+    },
+    "status": 400,
+    "esperado": 400,
+    "respuesta": {
+      "timestamp": "2026-10-11T16:46:19.8034469",
+      "status": 400,
+      "error": "Bad Request",
+      "message": "Existen errores de validación",
+      "path": "/api/v1/productos/21",
+      "validationErrors": {
+        "nombre": "El nombre del producto es obligatorio",
+        "precio": "El precio debe ser mayor que cero",
+        "stock": "El stock no puede ser negativo"
+      }
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.808442-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Actualizar ID inexistente",
+    "metodo": "PUT",
+    "ruta": "/productos/9223372036854775807",
+    "cuerpoSolicitud": {
+      "nombre": "Prueba S07 20261011164619 actualizado",
+      "precio": 2.5,
+      "stock": 7,
+      "estado": true,
+      "categoriaId": 1
+    },
+    "status": 404,
+    "esperado": 404,
+    "respuesta": {
+      "timestamp": "2026-10-11T16:46:19.8447795",
+      "status": 404,
+      "error": "Not Found",
+      "message": "Producto no encontrado con id: 9223372036854775807",
+      "path": "/api/v1/productos/9223372036854775807",
+      "validationErrors": null
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.849995-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Baja lógica del producto de prueba",
+    "metodo": "DELETE",
+    "ruta": "/productos/21",
+    "cuerpoSolicitud": null,
+    "status": 204,
+    "esperado": 204,
+    "respuesta": null,
+    "cabeceras": {
+      "Vary": "Origin",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.875997-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Repetir baja lógica",
+    "metodo": "DELETE",
+    "ruta": "/productos/21",
+    "cuerpoSolicitud": null,
+    "status": 409,
+    "esperado": 409,
+    "respuesta": {
+      "timestamp": "2026-10-11T16:46:19.9044275",
+      "status": 409,
+      "error": "Conflict",
+      "message": "El producto Prueba S07 20261011164619 actualizado ya se encuentra inactivo",
+      "path": "/api/v1/productos/21",
+      "validationErrors": null
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.910099-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Eliminar ID inexistente",
+    "metodo": "DELETE",
+    "ruta": "/productos/9223372036854775807",
+    "cuerpoSolicitud": null,
+    "status": 404,
+    "esperado": 404,
+    "respuesta": {
+      "timestamp": "2026-10-11T16:46:19.9241547",
+      "status": 404,
+      "error": "Not Found",
+      "message": "Producto no encontrado con id: 9223372036854775807",
+      "path": "/api/v1/productos/9223372036854775807",
+      "validationErrors": null
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    }
+  },
+  {
+    "fechaLima": "2026-10-11T16:46:19.928005-05:00",
+    "plataforma": "Windows - cliente HTTP Python",
+    "nombre": "Verificar persistencia tras baja lógica",
+    "metodo": "GET",
+    "ruta": "/productos/21",
+    "cuerpoSolicitud": null,
+    "status": 200,
+    "esperado": 200,
+    "respuesta": {
+      "id": 21,
+      "nombre": "Prueba S07 20261011164619 actualizado",
+      "precio": 2.5,
+      "stock": 7,
+      "estado": false,
+      "categoriaId": 1,
+      "categoriaNombre": "Analgésicos",
+      "fechaCreacion": "2026-10-11T16:46:19.544634",
+      "fechaModificacion": "2026-10-11T16:46:19.862638"
+    },
+    "cabeceras": {
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Date": "Sun, 11 Oct 2026 21:46:19 GMT",
+      "Connection": "close"
+    },
+    "conclusion": "DELETE marca estado=false; no borra físicamente. El listado también incluye productos inactivos."
+  }
+]
