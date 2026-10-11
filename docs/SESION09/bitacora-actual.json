@@ -1,0 +1,81 @@
+[
+  {
+    "prueba": "01-listado-actual",
+    "fechaLima": "2026-10-11T18:11:11.742922-05:00",
+    "plataforma": "Android Pixel 9 API36",
+    "resultado": "Tres productos reales activos de PharmaSoft con precios en soles y dos decimales.",
+    "textoPantalla": [
+      "Registrar producto",
+      "Nombre",
+      "Precio",
+      "En soles",
+      "Stock",
+      "Unidades",
+      "Registrar",
+      "Inventario",
+      "3 productos",
+      "Paracetamol 500 mg",
+      "S/ 4.50  ·  120 u.",
+      "Editar",
+      "Eliminar",
+      "Ibuprofeno 400 mg",
+      "S/ 6.80  ·  80 u.",
+      "Editar",
+      "Eliminar",
+      "Naproxeno 550 mg",
+      "S/ 8.50  ·  60 u.",
+      "Editar",
+      "Eliminar",
+      "Productos"
+    ],
+    "captura": "capturas/01-listado-actual.png"
+  },
+  {
+    "prueba": "02-detalle-actual",
+    "fechaLima": "2026-10-11T18:11:18.668053-05:00",
+    "plataforma": "Android Pixel 9 API36",
+    "resultado": "GET producto/1: detalle con nombre, precio formateado y stock.",
+    "textoPantalla": [
+      "Volver a productos",
+      "Paracetamol 500 mg",
+      "Precio: S/ 4.50",
+      "Stock: 120 u.",
+      "Compartir",
+      "Detalle del producto"
+    ],
+    "captura": "capturas/02-detalle-actual.png"
+  },
+  {
+    "prueba": "03-selector-actual",
+    "fechaLima": "2026-10-11T18:11:26.497607-05:00",
+    "plataforma": "Android Pixel 9 API36",
+    "resultado": "Selector nativo Android muestra nombre, importe S/ 4.50 y Stock: 120. No se envió el texto a ninguna aplicación.",
+    "textoPantalla": [
+      "Sharing text",
+      "Paracetamol 500 mg — S/ 4.50 — Stock: 120",
+      "No recommended people to share with",
+      "Quick Share",
+      "Chrome",
+      "Drive",
+      "Copy to clipboard",
+      "Drive",
+      "Messages"
+    ],
+    "captura": "capturas/03-selector-actual.png"
+  },
+  {
+    "prueba": "04-regreso-detalle",
+    "fechaLima": "2026-10-11T18:11:30.368653-05:00",
+    "plataforma": "Android Pixel 9 API36",
+    "resultado": "Cancelar el selector conserva el detalle; no aparece error nativo.",
+    "textoPantalla": [
+      "Volver a productos",
+      "Paracetamol 500 mg",
+      "Precio: S/ 4.50",
+      "Stock: 120 u.",
+      "Compartir",
+      "Detalle del producto"
+    ],
+    "captura": "capturas/04-regreso-detalle.png"
+  }
+]

@@ -28,45 +28,31 @@ Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…## Capacidades nativas — Sesión 9
+Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
 
-La práctica agrega formato de soles con `expect/actual` y compartir un producto mediante una interfaz común.
+## Capacidades nativas
 
-### Cómo probar en Android
+Práctica 09: [verificación actual, capturas y límites](docs/SESION09/VERIFICACION.md). Rama `feature/expect-actual-duran`.
 
-1. Ejecutar `androidApp` en Android Studio.
-2. Abrir **Productos**, registrar Paracetamol con precio 24.50 y stock 10.
-3. Tocar la tarjeta del producto: abre **Detalle del producto**.
-4. Verificar el precio con moneda peruana y pulsar **Compartir**.
-5. Android debe abrir su selector de aplicaciones con nombre, precio y stock. Volver al detalle y luego a la lista.
+PharmaMobil usa `expect/actual` para formatear soles y una interfaz del dominio inyectada por Koin para compartir. Android se verificó con un producto real de PharmaSoft; iOS sigue pendiente de Mac/Xcode.
 
-### Archivos para explicar el código
+| Archivo común | Android | iOS |
+|---|---|---|
+| [Formato.kt](shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.kt) | [NumberFormat](shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.android.kt) | [NSNumberFormatter](shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.ios.kt) |
+| [Compartidor](shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/domain/platform/Compartidor.kt) | [Intent ACTION_SEND](shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/CompartidorAndroid.kt) | [UIActivityViewController](shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/CompartidorIos.kt) |
+| expect platformModule | [Módulo Android](shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/di/PlatformModule.android.kt) | [Módulo iOS](shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/di/PlatformModule.ios.kt) |
 
-- `shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.kt`: declara `expect fun formatearSoles`.
-- `shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.android.kt`: `actual` con NumberFormat y locale es_PE.
-- `shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/Formato.ios.kt`: `actual` con NSNumberFormatter.
-- `shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/presentation/producto/ProductoUi.kt`: transforma el precio antes de enviarlo a la pantalla.
-- `shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/domain/platform/Compartidor.kt`: contrato compartido para compartir texto.
-- `shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/domain/usecase/TextoParaCompartir.kt`: construye el mensaje del producto como indica la guía.
-- `shared/src/androidMain/kotlin/pe/edu/upeu/pharmamobil/platform/CompartidorAndroid.kt`: Intent ACTION_SEND y selector nativo.
-- `shared/src/iosMain/kotlin/pe/edu/upeu/pharmamobil/platform/CompartidorIos.kt`: UIActivityViewController.
-- `shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/presentation/detalle/`: ViewModel, estado y pantalla de detalle.
-- `shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/di/AppModule.kt` y los PlatformModule de Android/iOS: inyección de las implementaciones.
+El [mapper de presentación](shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/presentation/producto/ProductoUi.kt) convierte el precio antes de mostrarlo. El [texto compartido](shared/src/commonMain/kotlin/pe/edu/upeu/pharmamobil/domain/usecase/TextoParaCompartir.kt) incluye nombre, precio y stock. Detalle usa GET por ID del backend real.
 
-### Evidencias y límites
+Para probar: abrir Productos, tocar Paracetamol 500 mg y pulsar Compartir. El selector muestra `Paracetamol 500 mg — S/ 4.50 — Stock: 120`. Al cancelar se conserva el detalle.
 
-`docs/SESION09/01-error-sin-actual.log` conserva la compilación inicial, incluido el error real de falta de actual. `02-verificacion-android.log` contiene la compilación y las pruebas posteriores.
+Capturas: [listado](docs/SESION09/capturas/01-listado-actual.png), [selector Android](docs/SESION09/capturas/03-selector-actual.png) y [error original sin actual](docs/SESION09/capturas/05-error-sin-actual.png). El error es un registro histórico auténtico; la versión completa actual compila.
 
-Esta base usa un repositorio en memoria, con registrar y listar: no contiene el CRUD REST de la sesión 8. Para cumplir ese prerrequisito falta conectar PharmaSoft y verificar GET /api/v1/productos. La implementación de iOS está preparada, pero no está compilada ni ejecutada: requiere Mac con Xcode. Las capturas de ejecución de ambos sistemas deben obtenerse en sus dispositivos; no se sustituyen por las pruebas unitarias.
+Interop revisada: Swift importa Shared, inicializa Koin con KoinIosKt.doInitKoinIos() y crea Compose mediante MainViewControllerKt.MainViewController(). No se acredita ejecución iOS.
 
-Rama solicitada: `feature/expect-actual-duran`, desde `develop`. Ejecutar `iniciar-sesion09.ps1` desde la terminal del usuario para crearla; después de verificar los cambios, `registrar-sesion09.ps1` registra tres commits separados. No realiza push.
+Repositorio de entrega: https://github.com/GreysiLL/Activi-09-pract/tree/feature/expect-actual-duran
 
-### Prueba manual Android confirmada
-
-La ejecución del usuario confirmó la instalación de PharmaMobil y el selector nativo con el texto «galleta — S/ 3.50 — Stock: 3». Evidencia: [selector Android](docs/SESION09/android-compartir.png). Esto confirma compartir en Android. Este registro es anterior a las pruebas REST de S07 documentadas más abajo; iOS sigue sin ejecutarse.
-
-
-## Sesión 7: consumo GET con Ktor
+## Sesión 7: consumo GET con Ktor (registro histórico)
 
 Ktor 3.6.0 y kotlinx.serialization consumen PharmaSoft con un HttpClient único inyectado por Koin.
 

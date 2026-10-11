@@ -1,0 +1,185 @@
+--------- beginning of main
+10-11 22:45:33.660 10264 10300 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos
+10-11 22:45:33.660 10264 10300 I System.out: METHOD: POST
+10-11 22:45:33.660 10264 10300 I System.out: COMMON HEADERS
+10-11 22:45:33.660 10264 10300 I System.out: -> Accept: application/json
+10-11 22:45:33.660 10264 10300 I System.out: CONTENT HEADERS
+10-11 22:45:33.660 10264 10300 I System.out: -> Content-Length: 86
+10-11 22:45:33.660 10264 10300 I System.out: -> Content-Type: application/json
+10-11 22:45:33.660 10264 10300 I System.out: BODY Content-Type: application/json
+10-11 22:45:33.661 10264 10300 I System.out: BODY START
+10-11 22:45:33.662 10264 10300 I System.out: {"nombre":"AA08-4-1791758733413","precio":2.5,"stock":5,"estado":true,"categoriaId":1}
+10-11 22:45:33.662 10264 10300 I System.out: BODY END
+10-11 22:45:34.764 10264 10264 I System.out: Ktor: RESPONSE: 201 
+10-11 22:45:34.764 10264 10264 I System.out: METHOD: POST
+10-11 22:45:34.764 10264 10264 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos
+10-11 22:45:34.764 10264 10264 I System.out: COMMON HEADERS
+10-11 22:45:34.764 10264 10264 I System.out: -> connection: keep-alive
+10-11 22:45:34.764 10264 10264 I System.out: -> content-type: application/json
+10-11 22:45:34.764 10264 10264 I System.out: -> date: Sun, 11 Oct 2026 22:45:34 GMT
+10-11 22:45:34.764 10264 10264 I System.out: -> keep-alive: timeout=60
+10-11 22:45:34.764 10264 10264 I System.out: -> transfer-encoding: chunked
+10-11 22:45:34.764 10264 10264 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:45:34.764 10264 10264 I System.out: BODY Content-Type: application/json
+10-11 22:45:34.764 10264 10264 I System.out: BODY START
+10-11 22:45:34.768 10264 10264 I System.out: {"id":44,"nombre":"AA08-4-1791758733413","precio":2.5,"stock":5,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-11T17:45:34.5428194","fechaModificacion":null}
+10-11 22:45:34.769 10264 10264 I System.out: BODY END
+10-11 22:45:34.830 10264 10300 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos/44
+10-11 22:45:34.831 10264 10300 I System.out: METHOD: DELETE
+10-11 22:45:34.831 10264 10300 I System.out: COMMON HEADERS
+10-11 22:45:34.831 10264 10300 I System.out: -> Accept: application/json
+10-11 22:45:34.832 10264 10300 I System.out: -> Content-Type: application/json
+10-11 22:45:34.832 10264 10300 I System.out: CONTENT HEADERS
+10-11 22:45:34.832 10264 10300 I System.out: -> Content-Length: 0
+10-11 22:45:34.833 10264 10300 I System.out: BODY Content-Type: null
+10-11 22:45:34.833 10264 10300 I System.out: BODY START
+10-11 22:45:34.834 10264 10300 I System.out: 
+10-11 22:45:34.834 10264 10300 I System.out: BODY END
+10-11 22:45:34.878 10264 10264 I System.out: Ktor: RESPONSE: 204 
+10-11 22:45:34.879 10264 10264 I System.out: METHOD: DELETE
+10-11 22:45:34.879 10264 10264 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos/44
+10-11 22:45:34.879 10264 10264 I System.out: COMMON HEADERS
+10-11 22:45:34.879 10264 10264 I System.out: -> connection: keep-alive
+10-11 22:45:34.879 10264 10264 I System.out: -> date: Sun, 11 Oct 2026 22:45:35 GMT
+10-11 22:45:34.879 10264 10264 I System.out: -> keep-alive: timeout=60
+10-11 22:45:34.879 10264 10264 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:45:34.880 10264 10264 I System.out: BODY Content-Type: null
+10-11 22:45:34.880 10264 10264 I System.out: BODY START
+10-11 22:45:34.880 10264 10264 I System.out: 
+10-11 22:45:34.880 10264 10264 I System.out: BODY END
+10-11 22:45:34.885 10264 10301 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos/44
+10-11 22:45:34.885 10264 10301 I System.out: METHOD: DELETE
+10-11 22:45:34.885 10264 10301 I System.out: COMMON HEADERS
+10-11 22:45:34.886 10264 10301 I System.out: -> Accept: application/json
+10-11 22:45:34.886 10264 10301 I System.out: -> Content-Type: application/json
+10-11 22:45:34.886 10264 10301 I System.out: CONTENT HEADERS
+10-11 22:45:34.887 10264 10301 I System.out: -> Content-Length: 0
+10-11 22:45:34.888 10264 10301 I System.out: BODY Content-Type: null
+10-11 22:45:34.890 10264 10301 I System.out: BODY START
+10-11 22:45:34.891 10264 10301 I System.out: 
+10-11 22:45:34.891 10264 10301 I System.out: BODY END
+10-11 22:45:34.934 10264 10264 I System.out: Ktor: RESPONSE: 409 
+10-11 22:45:34.935 10264 10264 I System.out: METHOD: DELETE
+10-11 22:45:34.935 10264 10264 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos/44
+10-11 22:45:34.935 10264 10264 I System.out: COMMON HEADERS
+10-11 22:45:34.935 10264 10264 I System.out: -> connection: keep-alive
+10-11 22:45:34.935 10264 10264 I System.out: -> content-type: application/json
+10-11 22:45:34.935 10264 10264 I System.out: -> date: Sun, 11 Oct 2026 22:45:35 GMT
+10-11 22:45:34.935 10264 10264 I System.out: -> keep-alive: timeout=60
+10-11 22:45:34.935 10264 10264 I System.out: -> transfer-encoding: chunked
+10-11 22:45:34.935 10264 10264 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:45:34.935 10264 10264 I System.out: BODY Content-Type: application/json
+10-11 22:45:34.936 10264 10264 I System.out: BODY START
+10-11 22:45:34.936 10264 10264 I System.out: {"timestamp":"2026-10-11T17:45:35.1698406","status":409,"error":"Conflict","message":"El producto AA08-4-1791758733413 ya se encuentra inactivo","path":"/api/v1/productos/44","validationErrors":null}
+10-11 22:45:34.937 10264 10264 I System.out: BODY END
+10-11 22:45:34.993 10264 10264 I System.out: AA08: escenario=4 HTTP=409 ErrorApi=Conflicto(mensaje=El producto AA08-4-1791758733413 ya se encuentra inactivo) mensaje=El producto AA08-4-1791758733413 ya se encuentra inactivo
+10-11 22:45:40.200 10264 10404 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos
+10-11 22:45:40.200 10264 10404 I System.out: METHOD: POST
+10-11 22:45:40.200 10264 10404 I System.out: COMMON HEADERS
+10-11 22:45:40.200 10264 10404 I System.out: -> Accept: application/json
+10-11 22:45:40.200 10264 10404 I System.out: CONTENT HEADERS
+10-11 22:45:40.200 10264 10404 I System.out: -> Content-Length: 86
+10-11 22:45:40.200 10264 10404 I System.out: -> Content-Type: application/json
+10-11 22:45:40.200 10264 10404 I System.out: BODY Content-Type: application/json
+10-11 22:45:40.201 10264 10404 I System.out: BODY START
+10-11 22:45:40.201 10264 10404 I System.out: {"nombre":"AA08-5-1791758740195","precio":2.5,"stock":5,"estado":true,"categoriaId":1}
+10-11 22:45:40.201 10264 10404 I System.out: BODY END
+10-11 22:45:40.289 10264 10264 I System.out: Ktor: RESPONSE: 201 
+10-11 22:45:40.289 10264 10264 I System.out: METHOD: POST
+10-11 22:45:40.289 10264 10264 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos
+10-11 22:45:40.289 10264 10264 I System.out: COMMON HEADERS
+10-11 22:45:40.289 10264 10264 I System.out: -> connection: keep-alive
+10-11 22:45:40.289 10264 10264 I System.out: -> content-type: application/json
+10-11 22:45:40.289 10264 10264 I System.out: -> date: Sun, 11 Oct 2026 22:45:40 GMT
+10-11 22:45:40.289 10264 10264 I System.out: -> keep-alive: timeout=60
+10-11 22:45:40.289 10264 10264 I System.out: -> transfer-encoding: chunked
+10-11 22:45:40.289 10264 10264 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:45:40.289 10264 10264 I System.out: BODY Content-Type: application/json
+10-11 22:45:40.289 10264 10264 I System.out: BODY START
+10-11 22:45:40.289 10264 10264 I System.out: {"id":45,"nombre":"AA08-5-1791758740195","precio":2.5,"stock":5,"estado":true,"categoriaId":1,"categoriaNombre":"Analgésicos","fechaCreacion":"2026-10-11T17:45:40.4955636","fechaModificacion":null}
+10-11 22:45:40.289 10264 10264 I System.out: BODY END
+10-11 22:45:40.304 10264 10301 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos
+10-11 22:45:40.304 10264 10301 I System.out: METHOD: POST
+10-11 22:45:40.304 10264 10301 I System.out: COMMON HEADERS
+10-11 22:45:40.304 10264 10301 I System.out: -> Accept: application/json
+10-11 22:45:40.304 10264 10301 I System.out: CONTENT HEADERS
+10-11 22:45:40.304 10264 10301 I System.out: -> Content-Length: 86
+10-11 22:45:40.304 10264 10301 I System.out: -> Content-Type: application/json
+10-11 22:45:40.304 10264 10301 I System.out: BODY Content-Type: application/json
+10-11 22:45:40.304 10264 10301 I System.out: BODY START
+10-11 22:45:40.304 10264 10301 I System.out: {"nombre":"AA08-5-1791758740195","precio":2.5,"stock":5,"estado":true,"categoriaId":1}
+10-11 22:45:40.304 10264 10301 I System.out: BODY END
+10-11 22:45:40.356 10264 10264 I System.out: Ktor: RESPONSE: 409 
+10-11 22:45:40.356 10264 10264 I System.out: METHOD: POST
+10-11 22:45:40.356 10264 10264 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos
+10-11 22:45:40.356 10264 10264 I System.out: COMMON HEADERS
+10-11 22:45:40.356 10264 10264 I System.out: -> connection: keep-alive
+10-11 22:45:40.356 10264 10264 I System.out: -> content-type: application/json
+10-11 22:45:40.356 10264 10264 I System.out: -> date: Sun, 11 Oct 2026 22:45:40 GMT
+10-11 22:45:40.356 10264 10264 I System.out: -> keep-alive: timeout=60
+10-11 22:45:40.356 10264 10264 I System.out: -> transfer-encoding: chunked
+10-11 22:45:40.356 10264 10264 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:45:40.356 10264 10264 I System.out: BODY Content-Type: application/json
+10-11 22:45:40.356 10264 10264 I System.out: BODY START
+10-11 22:45:40.356 10264 10264 I System.out: {"timestamp":"2026-10-11T17:45:40.5982905","status":409,"error":"Conflict","message":"Ya existe un producto con el nombre AA08-5-1791758740195","path":"/api/v1/productos","validationErrors":null}
+10-11 22:45:40.357 10264 10264 I System.out: BODY END
+10-11 22:45:40.363 10264 10264 I System.out: AA08: escenario=5 HTTP=409 ErrorApi=Conflicto(mensaje=Ya existe un producto con el nombre AA08-5-1791758740195) mensaje=Ya existe un producto con el nombre AA08-5-1791758740195
+10-11 22:45:40.374 10264 10301 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos/45
+10-11 22:45:40.374 10264 10301 I System.out: METHOD: DELETE
+10-11 22:45:40.374 10264 10301 I System.out: COMMON HEADERS
+10-11 22:45:40.374 10264 10301 I System.out: -> Accept: application/json
+10-11 22:45:40.374 10264 10301 I System.out: -> Content-Type: application/json
+10-11 22:45:40.374 10264 10301 I System.out: CONTENT HEADERS
+10-11 22:45:40.375 10264 10301 I System.out: -> Content-Length: 0
+10-11 22:45:40.375 10264 10301 I System.out: BODY Content-Type: null
+10-11 22:45:40.375 10264 10301 I System.out: BODY START
+10-11 22:45:40.375 10264 10301 I System.out: 
+10-11 22:45:40.375 10264 10301 I System.out: BODY END
+10-11 22:45:40.435 10264 10264 I System.out: Ktor: RESPONSE: 204 
+10-11 22:45:40.435 10264 10264 I System.out: METHOD: DELETE
+10-11 22:45:40.435 10264 10264 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos/45
+10-11 22:45:40.435 10264 10264 I System.out: COMMON HEADERS
+10-11 22:45:40.435 10264 10264 I System.out: -> connection: keep-alive
+10-11 22:45:40.435 10264 10264 I System.out: -> date: Sun, 11 Oct 2026 22:45:40 GMT
+10-11 22:45:40.435 10264 10264 I System.out: -> keep-alive: timeout=60
+10-11 22:45:40.435 10264 10264 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:45:40.436 10264 10264 I System.out: BODY Content-Type: null
+10-11 22:45:40.436 10264 10264 I System.out: BODY START
+10-11 22:45:40.436 10264 10264 I System.out: 
+10-11 22:45:40.436 10264 10264 I System.out: BODY END
+10-11 22:46:51.108 10264 10264 I System.out: AA08: EnCurso; envio suspendido 5 segundos para comprobar cancelacion al salir
+10-11 22:46:53.924 10264 10264 I System.out: AA08: CancellationException relanzada; no se convierte en ErrorApi ni se publica mensaje de error
+10-11 23:11:07.412 11295 11295 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 23:11:07.413 11295 11295 I System.out: METHOD: GET
+10-11 23:11:07.413 11295 11295 I System.out: COMMON HEADERS
+10-11 23:11:07.413 11295 11295 I System.out: -> Accept: application/json
+10-11 23:11:07.413 11295 11295 I System.out: -> Content-Type: application/json
+10-11 23:11:07.413 11295 11295 I System.out: CONTENT HEADERS
+10-11 23:11:07.413 11295 11295 I System.out: -> Content-Length: 0
+10-11 23:11:08.347 11295 11295 I System.out: Ktor: RESPONSE: 200 
+10-11 23:11:08.347 11295 11295 I System.out: METHOD: GET
+10-11 23:11:08.347 11295 11295 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 23:11:08.347 11295 11295 I System.out: COMMON HEADERS
+10-11 23:11:08.347 11295 11295 I System.out: -> connection: keep-alive
+10-11 23:11:08.347 11295 11295 I System.out: -> content-type: application/json
+10-11 23:11:08.347 11295 11295 I System.out: -> date: Sun, 11 Oct 2026 23:11:08 GMT
+10-11 23:11:08.347 11295 11295 I System.out: -> keep-alive: timeout=60
+10-11 23:11:08.347 11295 11295 I System.out: -> transfer-encoding: chunked
+10-11 23:11:08.348 11295 11295 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 23:11:15.120 11295 11295 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos/1
+10-11 23:11:15.120 11295 11295 I System.out: METHOD: GET
+10-11 23:11:15.120 11295 11295 I System.out: COMMON HEADERS
+10-11 23:11:15.120 11295 11295 I System.out: -> Accept: application/json
+10-11 23:11:15.120 11295 11295 I System.out: -> Content-Type: application/json
+10-11 23:11:15.120 11295 11295 I System.out: CONTENT HEADERS
+10-11 23:11:15.120 11295 11295 I System.out: -> Content-Length: 0
+10-11 23:11:15.190 11295 11295 I System.out: Ktor: RESPONSE: 200 
+10-11 23:11:15.190 11295 11295 I System.out: METHOD: GET
+10-11 23:11:15.190 11295 11295 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos/1
+10-11 23:11:15.190 11295 11295 I System.out: COMMON HEADERS
+10-11 23:11:15.190 11295 11295 I System.out: -> connection: keep-alive
+10-11 23:11:15.190 11295 11295 I System.out: -> content-type: application/json
+10-11 23:11:15.190 11295 11295 I System.out: -> date: Sun, 11 Oct 2026 23:11:15 GMT
+10-11 23:11:15.190 11295 11295 I System.out: -> keep-alive: timeout=60
+10-11 23:11:15.190 11295 11295 I System.out: -> transfer-encoding: chunked
+10-11 23:11:15.190 11295 11295 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
