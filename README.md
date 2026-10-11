@@ -109,3 +109,21 @@ Repositorio de entrega S07 autónoma: https://github.com/GreysiLL/AA
 Las cinco pruebas de conexión pasaron en Android (Pixel 9, API 36). [Bitácora real](docs/S07_AUTONOMA/bitacora-android.json), [registro Ktor](docs/S07_AUTONOMA/ktor-android.log) e [informe PDF](docs/S07_AUTONOMA/S07_ActividadAutonoma_Duran_Castro.pdf).
 
 iOS: no ejecutado por falta de Mac/Xcode. Esta evidencia queda pendiente.
+
+
+## Sesión 08 - CRUD REST
+
+Rama `feature/crud-productos-duran`. [Implementación y verificación](docs/SESION08/VERIFICACION.md).
+
+En Productos, Registrar guarda en PharmaSoft; Editar carga por ID y permite Guardar cambios; Eliminar pide confirmación y aplica la baja lógica del backend. El inventario muestra los productos activos de todas las páginas. Los errores del servidor se muestran bajo el campo correspondiente o en un mensaje de operación sin borrar el listado.
+
+Oracle y PharmaSoft deben estar funcionando. Categoría por defecto: 1 (Analgésicos); editar conserva la categoría original.
+
+Verificar en PowerShell: `powershell -NoProfile -ExecutionPolicy Bypass -File .\verificar-sesion08.ps1`.
+
+iOS no ejecutado por falta de Mac/Xcode; no se acredita esa evidencia.
+
+
+Entrega práctica S08: https://github.com/GreysiLL/act.prac-2/tree/feature/crud-productos-duran
+
+Verificación final: 63 pruebas Android host sin fallos; CRUD real y error400 ejecutados en el emulador. [Capturas, bitácora y logs](docs/SESION08/VERIFICACION.md). Tres productos activos antes/después; producto de prueba eliminado lógicamente. Publicar la rama: `powershell -NoProfile -ExecutionPolicy Bypass -File .\subir-practica08.ps1`.

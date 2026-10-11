@@ -39,7 +39,10 @@ class ProductoViewModelTest {
         repositorio: FakeProductoRepository = FakeProductoRepository()
     ) = ProductoViewModel(
         registrarProducto = RegistrarProductoUseCase(repositorio),
-        listarProductos = ListarProductosUseCase(repositorio)
+        listarProductos = ListarProductosUseCase(repositorio),
+        obtenerProducto = pe.edu.upeu.pharmamobil.domain.usecase.ObtenerProductoUseCase(repositorio),
+        actualizarProducto = pe.edu.upeu.pharmamobil.domain.usecase.ActualizarProductoUseCase(repositorio),
+        eliminarProducto = pe.edu.upeu.pharmamobil.domain.usecase.EliminarProductoUseCase(repositorio)
     )
 
     @Test

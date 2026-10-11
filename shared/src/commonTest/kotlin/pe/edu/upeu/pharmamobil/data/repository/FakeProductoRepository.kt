@@ -15,7 +15,7 @@ class FakeProductoRepository(
     var fallaAlRegistrar: Throwable? = null
     var fallaAlListar: Throwable? = null
 
-    private var siguienteId = 1L
+    private var siguienteId = (productos.maxOfOrNull { it.id } ?: 0L) + 1L
 
     override suspend fun registrar(producto: Producto): Producto {
 
@@ -30,6 +30,9 @@ class FakeProductoRepository(
 
         fallaAlListar?.let { throw it }
 
-        return productos.toList()
+        return productos.filter { it.estado }
     }
+    override suspend fun obtener(id: Long) = productos.first { it.id == id }
+    override suspend fun actualizar(producto: Producto): Producto { val i=productos.indexOfFirst { it.id==producto.id };check(i>=0);productos[i]=producto;return producto }
+    override suspend fun eliminar(id: Long) { val i=productos.indexOfFirst { it.id==id };check(i>=0);productos[i]=productos[i].copy(estado=false) }
 }

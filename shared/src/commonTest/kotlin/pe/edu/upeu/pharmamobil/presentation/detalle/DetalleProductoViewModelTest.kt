@@ -15,6 +15,12 @@ class DetalleProductoViewModelTest {
     private val repository = object : ProductoRepository {
         override suspend fun registrar(producto: Producto) = producto
         override suspend fun listar() = listOf(producto)
+        override suspend fun obtener(id: Long): Producto {
+            if(id != producto.id) throw pe.edu.upeu.pharmamobil.domain.error.ErrorApiException(pe.edu.upeu.pharmamobil.domain.error.ErrorApi.NoEncontrado)
+            return producto
+        }
+        override suspend fun actualizar(producto: Producto) = producto
+        override suspend fun eliminar(id: Long) {}
     }
     @AfterTest fun limpiar() { Dispatchers.resetMain() }
     @Test fun comparteElProductoSeleccionadoConSuPrecioYStock() = runTest {

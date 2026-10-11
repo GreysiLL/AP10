@@ -19,12 +19,12 @@ class ProductoApiTest {
         val engine = MockEngine { request ->
             assertEquals("/api/v1/productos", request.url.encodedPath)
             assertEquals("0", request.url.parameters["pagina"])
-            assertEquals("20", request.url.parameters["tamanio"])
+            assertEquals("100", request.url.parameters["tamanio"])
             respond(contratoReal, headers = headersOf(HttpHeaders.ContentType, "application/json"))
         }
         val client = crearHttpClient(engine, "http://localhost:8080/api/v1/")
         try {
-            val repository = ProductoRepositorioRest(ProductoApi(client), ProductoRepositorioEnMemoria())
+            val repository = ProductoRepositorioRest(ProductoApi(client), 1L)
             val productos = repository.listar()
             assertEquals(3, productos.size)
             assertEquals("Paracetamol 500 mg", productos.first().nombre)
@@ -40,20 +40,21 @@ class ProductoApiTest {
         }
         val client = crearHttpClient(engine, "http://localhost:8080/api/v1/")
         try {
-            val repository = ProductoRepositorioRest(ProductoApi(client), ProductoRepositorioEnMemoria())
-            val error = assertFailsWith<IllegalStateException> { repository.listar() }
-            assertTrue(error.message.orEmpty().contains("503"))
+            val repository = ProductoRepositorioRest(ProductoApi(client), 1L)
+            val error = assertFailsWith<pe.edu.upeu.pharmamobil.domain.error.ErrorApiException> { repository.listar() }
+            assertEquals(pe.edu.upeu.pharmamobil.domain.error.ErrorApi.Servidor, error.error)
         } finally { client.close(); engine.close() }
     }
 
     @Test
     fun falloDeConexionSePropagaConMensajeComprensible() = runTest {
-        val engine = MockEngine { throw IllegalStateException("Sin conexión") }
+        val engine = MockEngine { throw kotlinx.io.IOException("Sin conexión") }
         val client = crearHttpClient(engine, "http://localhost:8080/api/v1/")
         try {
-            val repository = ProductoRepositorioRest(ProductoApi(client), ProductoRepositorioEnMemoria())
-            val error = assertFailsWith<IllegalStateException> { repository.listar() }
-            assertTrue(error.message.orEmpty().contains("Comprueba la conexión"))
+            val repository = ProductoRepositorioRest(ProductoApi(client), 1L)
+            val error = assertFailsWith<pe.edu.upeu.pharmamobil.domain.error.ErrorApiException> { repository.listar() }
+            assertEquals(pe.edu.upeu.pharmamobil.domain.error.ErrorApi.SinConexion, error.error)
+            assertTrue(error.message.orEmpty().isNotBlank())
         } finally { client.close(); engine.close() }
     }
 

@@ -1,0 +1,11 @@
+{
+  "id": 41,
+  "nombre": "PruebaS08-1726",
+  "precio": 2.5,
+  "stock": 5,
+  "estado": true,
+  "categoriaId": 1,
+  "categoriaNombre": "Analgésicos",
+  "fechaCreacion": "2026-10-11T17:25:17.692217",
+  "fechaModificacion": null
+}

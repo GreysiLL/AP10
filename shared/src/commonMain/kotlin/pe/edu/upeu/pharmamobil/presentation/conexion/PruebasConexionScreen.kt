@@ -41,4 +41,3 @@ fun PruebasConexionScreen() {
         Text(resultado, style = MaterialTheme.typography.bodyMedium)
     }
 }
-

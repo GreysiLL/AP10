@@ -1,0 +1,151 @@
+--------- beginning of main
+10-11 22:24:41.024  8388  8388 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 22:24:41.024  8388  8388 I System.out: METHOD: GET
+10-11 22:24:41.024  8388  8388 I System.out: COMMON HEADERS
+10-11 22:24:41.024  8388  8388 I System.out: -> Accept: application/json
+10-11 22:24:41.024  8388  8388 I System.out: -> Content-Type: application/json
+10-11 22:24:41.024  8388  8388 I System.out: CONTENT HEADERS
+10-11 22:24:41.024  8388  8388 I System.out: -> Content-Length: 0
+10-11 22:24:41.965  8388  8388 I System.out: Ktor: RESPONSE: 200 
+10-11 22:24:41.966  8388  8388 I System.out: METHOD: GET
+10-11 22:24:41.966  8388  8388 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 22:24:41.966  8388  8388 I System.out: COMMON HEADERS
+10-11 22:24:41.966  8388  8388 I System.out: -> connection: keep-alive
+10-11 22:24:41.966  8388  8388 I System.out: -> content-type: application/json
+10-11 22:24:41.966  8388  8388 I System.out: -> date: Sun, 11 Oct 2026 22:24:41 GMT
+10-11 22:24:41.966  8388  8388 I System.out: -> keep-alive: timeout=60
+10-11 22:24:41.966  8388  8388 I System.out: -> transfer-encoding: chunked
+10-11 22:24:41.966  8388  8388 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:25:02.713  8388  8388 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos
+10-11 22:25:02.713  8388  8388 I System.out: METHOD: POST
+10-11 22:25:02.713  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:02.713  8388  8388 I System.out: -> Accept: application/json
+10-11 22:25:02.713  8388  8388 I System.out: CONTENT HEADERS
+10-11 22:25:02.713  8388  8388 I System.out: -> Content-Length: 68
+10-11 22:25:02.713  8388  8388 I System.out: -> Content-Type: application/json
+10-11 22:25:02.853  8388  8388 I System.out: Ktor: RESPONSE: 400 
+10-11 22:25:02.853  8388  8388 I System.out: METHOD: POST
+10-11 22:25:02.853  8388  8388 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos
+10-11 22:25:02.853  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:02.853  8388  8388 I System.out: -> connection: close
+10-11 22:25:02.853  8388  8388 I System.out: -> content-type: application/json
+10-11 22:25:02.853  8388  8388 I System.out: -> date: Sun, 11 Oct 2026 22:25:03 GMT
+10-11 22:25:02.854  8388  8388 I System.out: -> transfer-encoding: chunked
+10-11 22:25:02.854  8388  8388 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:25:16.935  8388  8388 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos
+10-11 22:25:16.935  8388  8388 I System.out: METHOD: POST
+10-11 22:25:16.935  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:16.935  8388  8388 I System.out: -> Accept: application/json
+10-11 22:25:16.935  8388  8388 I System.out: CONTENT HEADERS
+10-11 22:25:16.935  8388  8388 I System.out: -> Content-Length: 80
+10-11 22:25:16.935  8388  8388 I System.out: -> Content-Type: application/json
+10-11 22:25:17.586  8388  8388 I System.out: Ktor: RESPONSE: 201 
+10-11 22:25:17.586  8388  8388 I System.out: METHOD: POST
+10-11 22:25:17.586  8388  8388 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos
+10-11 22:25:17.586  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:17.586  8388  8388 I System.out: -> connection: keep-alive
+10-11 22:25:17.586  8388  8388 I System.out: -> content-type: application/json
+10-11 22:25:17.587  8388  8388 I System.out: -> date: Sun, 11 Oct 2026 22:25:17 GMT
+10-11 22:25:17.587  8388  8388 I System.out: -> keep-alive: timeout=60
+10-11 22:25:17.587  8388  8388 I System.out: -> transfer-encoding: chunked
+10-11 22:25:17.587  8388  8388 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:25:17.600  8388  8388 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 22:25:17.600  8388  8388 I System.out: METHOD: GET
+10-11 22:25:17.600  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:17.600  8388  8388 I System.out: -> Accept: application/json
+10-11 22:25:17.600  8388  8388 I System.out: -> Content-Type: application/json
+10-11 22:25:17.600  8388  8388 I System.out: CONTENT HEADERS
+10-11 22:25:17.600  8388  8388 I System.out: -> Content-Length: 0
+10-11 22:25:17.743  8388  8388 I System.out: Ktor: RESPONSE: 200 
+10-11 22:25:17.744  8388  8388 I System.out: METHOD: GET
+10-11 22:25:17.744  8388  8388 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 22:25:17.744  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:17.744  8388  8388 I System.out: -> connection: keep-alive
+10-11 22:25:17.744  8388  8388 I System.out: -> content-type: application/json
+10-11 22:25:17.744  8388  8388 I System.out: -> date: Sun, 11 Oct 2026 22:25:17 GMT
+10-11 22:25:17.744  8388  8388 I System.out: -> keep-alive: timeout=60
+10-11 22:25:17.744  8388  8388 I System.out: -> transfer-encoding: chunked
+10-11 22:25:17.744  8388  8388 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:25:29.680  8388  8388 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos/41
+10-11 22:25:29.680  8388  8388 I System.out: METHOD: GET
+10-11 22:25:29.680  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:29.681  8388  8388 I System.out: -> Accept: application/json
+10-11 22:25:29.681  8388  8388 I System.out: -> Content-Type: application/json
+10-11 22:25:29.681  8388  8388 I System.out: CONTENT HEADERS
+10-11 22:25:29.681  8388  8388 I System.out: -> Content-Length: 0
+10-11 22:25:29.757  8388  8388 I System.out: Ktor: RESPONSE: 200 
+10-11 22:25:29.757  8388  8388 I System.out: METHOD: GET
+10-11 22:25:29.757  8388  8388 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos/41
+10-11 22:25:29.757  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:29.757  8388  8388 I System.out: -> connection: keep-alive
+10-11 22:25:29.757  8388  8388 I System.out: -> content-type: application/json
+10-11 22:25:29.757  8388  8388 I System.out: -> date: Sun, 11 Oct 2026 22:25:29 GMT
+10-11 22:25:29.757  8388  8388 I System.out: -> keep-alive: timeout=60
+10-11 22:25:29.757  8388  8388 I System.out: -> transfer-encoding: chunked
+10-11 22:25:29.757  8388  8388 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:25:47.372  8388  8388 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos/41
+10-11 22:25:47.372  8388  8388 I System.out: METHOD: PUT
+10-11 22:25:47.372  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:47.372  8388  8388 I System.out: -> Accept: application/json
+10-11 22:25:47.372  8388  8388 I System.out: CONTENT HEADERS
+10-11 22:25:47.373  8388  8388 I System.out: -> Content-Length: 81
+10-11 22:25:47.373  8388  8388 I System.out: -> Content-Type: application/json
+10-11 22:25:47.454  8388  8388 I System.out: Ktor: RESPONSE: 200 
+10-11 22:25:47.454  8388  8388 I System.out: METHOD: PUT
+10-11 22:25:47.454  8388  8388 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos/41
+10-11 22:25:47.454  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:47.454  8388  8388 I System.out: -> connection: keep-alive
+10-11 22:25:47.454  8388  8388 I System.out: -> content-type: application/json
+10-11 22:25:47.454  8388  8388 I System.out: -> date: Sun, 11 Oct 2026 22:25:47 GMT
+10-11 22:25:47.454  8388  8388 I System.out: -> keep-alive: timeout=60
+10-11 22:25:47.454  8388  8388 I System.out: -> transfer-encoding: chunked
+10-11 22:25:47.454  8388  8388 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:25:47.464  8388  8388 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 22:25:47.464  8388  8388 I System.out: METHOD: GET
+10-11 22:25:47.465  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:47.465  8388  8388 I System.out: -> Accept: application/json
+10-11 22:25:47.465  8388  8388 I System.out: -> Content-Type: application/json
+10-11 22:25:47.466  8388  8388 I System.out: CONTENT HEADERS
+10-11 22:25:47.467  8388  8388 I System.out: -> Content-Length: 0
+10-11 22:25:47.621  8388  8388 I System.out: Ktor: RESPONSE: 200 
+10-11 22:25:47.621  8388  8388 I System.out: METHOD: GET
+10-11 22:25:47.621  8388  8388 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 22:25:47.621  8388  8388 I System.out: COMMON HEADERS
+10-11 22:25:47.621  8388  8388 I System.out: -> connection: keep-alive
+10-11 22:25:47.621  8388  8388 I System.out: -> content-type: application/json
+10-11 22:25:47.621  8388  8388 I System.out: -> date: Sun, 11 Oct 2026 22:25:47 GMT
+10-11 22:25:47.621  8388  8388 I System.out: -> keep-alive: timeout=60
+10-11 22:25:47.621  8388  8388 I System.out: -> transfer-encoding: chunked
+10-11 22:25:47.621  8388  8388 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:26:04.915  8388  8388 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos/41
+10-11 22:26:04.915  8388  8388 I System.out: METHOD: DELETE
+10-11 22:26:04.915  8388  8388 I System.out: COMMON HEADERS
+10-11 22:26:04.915  8388  8388 I System.out: -> Accept: application/json
+10-11 22:26:04.915  8388  8388 I System.out: -> Content-Type: application/json
+10-11 22:26:04.915  8388  8388 I System.out: CONTENT HEADERS
+10-11 22:26:04.915  8388  8388 I System.out: -> Content-Length: 0
+10-11 22:26:05.048  8388  8388 I System.out: Ktor: RESPONSE: 204 
+10-11 22:26:05.048  8388  8388 I System.out: METHOD: DELETE
+10-11 22:26:05.048  8388  8388 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos/41
+10-11 22:26:05.048  8388  8388 I System.out: COMMON HEADERS
+10-11 22:26:05.048  8388  8388 I System.out: -> connection: keep-alive
+10-11 22:26:05.048  8388  8388 I System.out: -> date: Sun, 11 Oct 2026 22:26:05 GMT
+10-11 22:26:05.048  8388  8388 I System.out: -> keep-alive: timeout=60
+10-11 22:26:05.048  8388  8388 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
+10-11 22:26:05.053  8388  8388 I System.out: Ktor: REQUEST: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 22:26:05.053  8388  8388 I System.out: METHOD: GET
+10-11 22:26:05.053  8388  8388 I System.out: COMMON HEADERS
+10-11 22:26:05.053  8388  8388 I System.out: -> Accept: application/json
+10-11 22:26:05.053  8388  8388 I System.out: -> Content-Type: application/json
+10-11 22:26:05.054  8388  8388 I System.out: CONTENT HEADERS
+10-11 22:26:05.054  8388  8388 I System.out: -> Content-Length: 0
+10-11 22:26:05.153  8388  8388 I System.out: Ktor: RESPONSE: 200 
+10-11 22:26:05.154  8388  8388 I System.out: METHOD: GET
+10-11 22:26:05.154  8388  8388 I System.out: FROM: http://10.0.2.2:8080/api/v1/productos?pagina=0&tamanio=100
+10-11 22:26:05.154  8388  8388 I System.out: COMMON HEADERS
+10-11 22:26:05.154  8388  8388 I System.out: -> connection: keep-alive
+10-11 22:26:05.154  8388  8388 I System.out: -> content-type: application/json
+10-11 22:26:05.154  8388  8388 I System.out: -> date: Sun, 11 Oct 2026 22:26:05 GMT
+10-11 22:26:05.154  8388  8388 I System.out: -> keep-alive: timeout=60
+10-11 22:26:05.154  8388  8388 I System.out: -> transfer-encoding: chunked
+10-11 22:26:05.154  8388  8388 I System.out: -> vary: Origin; Access-Control-Request-Method; Access-Control-Request-Headers
