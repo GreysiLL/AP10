@@ -1,0 +1,11 @@
+{
+  "id": 61,
+  "nombre": "PruebaS10-144402",
+  "precio": 3.75,
+  "stock": 2,
+  "estado": false,
+  "categoriaId": 1,
+  "categoriaNombre": "Analgésicos",
+  "fechaCreacion": "2026-10-13T14:44:21.427696",
+  "fechaModificacion": "2026-10-13T14:44:55.577102"
+}

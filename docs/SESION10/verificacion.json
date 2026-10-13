@@ -1,0 +1,14 @@
+{
+  "apkSHA256": "6c4b573d1e015997f1103c4b6958079dae6e6d17b2874ce472aa096147e2bdab",
+  "pruebas": 77,
+  "backendSeguridad": 23,
+  "crudAndroid": "POST 201, GET 200, PUT 200, DELETE 204",
+  "productosActivos": 3,
+  "registroAuthorization": "***",
+  "ios": "Implementado, sin compilación ni ejecución en Windows",
+  "repositorioEntrega": "Por indicar por el usuario al terminar",
+  "capturas": 19,
+  "swagger": "401 sin token; 200 admin; 403 almacén en clientes",
+  "logcatCaptura": "capturas/19-logcat-authorization.png",
+  "fechaLima": "2026-10-13T14:59:43.908879-05:00"
+}

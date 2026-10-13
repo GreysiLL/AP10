@@ -1,0 +1,8 @@
+{
+  "plataforma": "Android 16",
+  "archivo": "shared_prefs/sesion_segura.xml",
+  "entradas": 2,
+  "jwtEnTextoPlano": false,
+  "archivoCifrado": "EncryptedSharedPreferences AES256_SIV/AES256_GCM, clave MasterKey en Android Keystore",
+  "observacion": "Se inspeccionó el archivo privado sin copiar ni publicar sus valores; no contiene JWT en texto plano."
+}

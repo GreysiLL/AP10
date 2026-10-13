@@ -131,3 +131,30 @@ Se retiró temporalmente el actual Android del formato y se registró el fallo r
 iOS: código implementado, sin compilación ni capturas por falta de Mac/Xcode. Resultado literal del formato Foundation pendiente; no se afirma equivalencia verificada.
 
 Repositorio de esta actividad: https://github.com/GreysiLL/SE3AA/tree/feature/autonoma09-duran
+
+
+## Autenticación
+
+Sesión 10: login real `POST /api/v1/auth/login` y recuperación con `GET /api/v1/auth/me`. Rama `feature/auth-jwt-duran`.
+
+| Usuario de prueba | Contraseña | Alcance |
+|---|---|---|
+| admin | Admin123 | Todos los permisos |
+| vendedor | Vendedor123 | Catálogo de lectura, clientes y ventas |
+| almacen | Almacen123 | Lectura y escritura del catálogo |
+
+Para ejecutar: mantener Oracle en Docker y PharmaSoft actualizado (seguridad, commit profesor `fff44f99c06d4ca0e71809b591c64435f25978d2`). Ejecutar `iniciar-pharmasoft.ps1` en la carpeta pharmaSoft; el script ahora utiliza `target/PharmaBackend-sesion10.jar`. `-Compilar` recompila desde el proyecto antes de actualizar ese JAR.
+Android apunta a `http://10.0.2.2:8080/api/v1/`; simulador iOS a `http://localhost:8080/api/v1/` y requiere el backend en la Mac o ajustar la dirección.
+
+Ktor Auth agrega Bearer automáticamente en la primera petición protegida y omite el login. Se limpia su caché al iniciar, restaurar y cerrar la sesión. El token se persiste mediante AlmacenSeguro: Android EncryptedSharedPreferences con MasterKey; iOS Keychain. No se guarda la contraseña. Las copias de seguridad Android están deshabilitadas.
+Logging usa HEADERS en debug y NONE en release; Authorization aparece como `***`. El cuerpo del login no se registra, para no revelar contraseña ni token.
+
+401 en login: credenciales incorrectas. 401 en una ruta protegida: limpia el token y vuelve al login con aviso. 403: mantiene la sesión y muestra falta de permiso. La interfaz usa los permisos del usuario actual; vendedor no tiene botones de escritura y almacén no ve Clientes. Al cerrar sesión se descartan los ViewModels y formularios del usuario anterior.
+Clientes ahora consulta y registra por REST; su formulario incorpora DNI y apellidos requeridos por PharmaSoft. Pedidos conserva su pantalla pendiente de sesiones anteriores: no se implementó una interfaz de ventas en esta práctica.
+
+Verificación automática: `powershell -NoProfile -ExecutionPolicy Bypass -File .\verificar-sesion10.ps1`.
+77 pruebas aprobadas. [Evidencias de sesión 10](docs/SESION10/README.md): matriz de 23 comprobaciones de seguridad, bitácora Android, capturas y registros sin tokens completos.
+
+La Activity de comprobaciones de seguridad existe solo en debug. Permite provocar el 403 con almacén y el cierre por 401 con un token deliberadamente inválido; esta última comprobación borra la sesión de prueba.
+EncryptedSharedPreferences está deprecado en AndroidX Security 1.1.0; se conserva para cumplir la implementación indicada en la guía, sin migrar otros mecanismos durante esta práctica.
+iOS: implementación de Keychain preparada; compilación y ejecución pendientes por falta de Mac/Xcode. No se presentan capturas iOS ni se afirma que esa plataforma está verificada.

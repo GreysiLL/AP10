@@ -1,0 +1,209 @@
+[
+  {
+    "usuario": "sin token",
+    "metodo": "GET",
+    "ruta": "productos",
+    "codigoHttp": 401,
+    "esperado": 401,
+    "mensaje": "Debe iniciar sesión para acceder a este recurso",
+    "fechaLima": "2026-10-13T14:28:21.570897-05:00"
+  },
+  {
+    "usuario": "clave incorrecta",
+    "metodo": "POST",
+    "ruta": "auth/login",
+    "codigoHttp": 401,
+    "esperado": 401,
+    "mensaje": "Usuario o contraseña incorrectos",
+    "fechaLima": "2026-10-13T14:28:21.784125-05:00"
+  },
+  {
+    "usuario": "admin",
+    "metodo": "POST",
+    "ruta": "auth/login",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:21.932094-05:00"
+  },
+  {
+    "usuario": "admin",
+    "metodo": "GET",
+    "ruta": "productos",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:22.193541-05:00"
+  },
+  {
+    "usuario": "admin",
+    "metodo": "GET",
+    "ruta": "clientes",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:22.297035-05:00"
+  },
+  {
+    "usuario": "admin",
+    "metodo": "GET",
+    "ruta": "auth/me",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:22.348429-05:00"
+  },
+  {
+    "usuario": "admin",
+    "metodo": "GET",
+    "ruta": "reportes/ventas-por-categoria",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:22.568413-05:00"
+  },
+  {
+    "usuario": "admin",
+    "metodo": "POST",
+    "ruta": "productos",
+    "codigoHttp": 400,
+    "esperado": 400,
+    "mensaje": "Existen errores de validación",
+    "fechaLima": "2026-10-13T14:28:22.692577-05:00"
+  },
+  {
+    "usuario": "admin",
+    "metodo": "POST",
+    "ruta": "ventas",
+    "codigoHttp": 400,
+    "esperado": 400,
+    "mensaje": "Existen errores de validación",
+    "fechaLima": "2026-10-13T14:28:22.793172-05:00"
+  },
+  {
+    "usuario": "vendedor",
+    "metodo": "POST",
+    "ruta": "auth/login",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:22.947004-05:00"
+  },
+  {
+    "usuario": "vendedor",
+    "metodo": "GET",
+    "ruta": "productos",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:23.027531-05:00"
+  },
+  {
+    "usuario": "vendedor",
+    "metodo": "GET",
+    "ruta": "clientes",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:23.082317-05:00"
+  },
+  {
+    "usuario": "vendedor",
+    "metodo": "GET",
+    "ruta": "auth/me",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:23.139853-05:00"
+  },
+  {
+    "usuario": "vendedor",
+    "metodo": "GET",
+    "ruta": "reportes/ventas-por-categoria",
+    "codigoHttp": 403,
+    "esperado": 403,
+    "mensaje": "No tiene permisos para realizar esta operación",
+    "fechaLima": "2026-10-13T14:28:23.188594-05:00"
+  },
+  {
+    "usuario": "vendedor",
+    "metodo": "POST",
+    "ruta": "productos",
+    "codigoHttp": 403,
+    "esperado": 403,
+    "mensaje": "No tiene permisos para realizar esta operación",
+    "fechaLima": "2026-10-13T14:28:23.219246-05:00"
+  },
+  {
+    "usuario": "vendedor",
+    "metodo": "POST",
+    "ruta": "ventas",
+    "codigoHttp": 400,
+    "esperado": 400,
+    "mensaje": "Existen errores de validación",
+    "fechaLima": "2026-10-13T14:28:23.248243-05:00"
+  },
+  {
+    "usuario": "almacen",
+    "metodo": "POST",
+    "ruta": "auth/login",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:23.419218-05:00"
+  },
+  {
+    "usuario": "almacen",
+    "metodo": "GET",
+    "ruta": "productos",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:23.455968-05:00"
+  },
+  {
+    "usuario": "almacen",
+    "metodo": "GET",
+    "ruta": "clientes",
+    "codigoHttp": 403,
+    "esperado": 403,
+    "mensaje": "No tiene permisos para realizar esta operación",
+    "fechaLima": "2026-10-13T14:28:23.494220-05:00"
+  },
+  {
+    "usuario": "almacen",
+    "metodo": "GET",
+    "ruta": "auth/me",
+    "codigoHttp": 200,
+    "esperado": 200,
+    "mensaje": null,
+    "fechaLima": "2026-10-13T14:28:23.546921-05:00"
+  },
+  {
+    "usuario": "almacen",
+    "metodo": "GET",
+    "ruta": "reportes/ventas-por-categoria",
+    "codigoHttp": 403,
+    "esperado": 403,
+    "mensaje": "No tiene permisos para realizar esta operación",
+    "fechaLima": "2026-10-13T14:28:23.588512-05:00"
+  },
+  {
+    "usuario": "almacen",
+    "metodo": "POST",
+    "ruta": "productos",
+    "codigoHttp": 400,
+    "esperado": 400,
+    "mensaje": "Existen errores de validación",
+    "fechaLima": "2026-10-13T14:28:23.616257-05:00"
+  },
+  {
+    "usuario": "almacen",
+    "metodo": "POST",
+    "ruta": "ventas",
+    "codigoHttp": 403,
+    "esperado": 403,
+    "mensaje": "No tiene permisos para realizar esta operación",
+    "fechaLima": "2026-10-13T14:28:23.638032-05:00"
+  }
+]
