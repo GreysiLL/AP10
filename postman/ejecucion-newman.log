@@ -1,0 +1,272 @@
+(node:20740) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+newman
+
+PharmaSoft - Practica 10 - API completa y seguridad
+
+□ 00. Salud del servidor
+└ Servidor disponible - GET health
+  GET http://localhost:8080/api/health [200 OK, 448B, 126ms]
+  √  HTTP 200 esperado
+
+□ 01. Login de los tres usuarios
+└ Login admin - guarda token_admin
+  POST http://localhost:8080/api/v1/auth/login [200 OK, 1.11kB, 220ms]
+  √  HTTP 200 esperado
+  √  Token JWT recibido
+  √  Usuario correcto
+
+└ Login vendedor - guarda token_vendedor
+  POST http://localhost:8080/api/v1/auth/login [200 OK, 992B, 193ms]
+  √  HTTP 200 esperado
+  √  Token JWT recibido
+  √  Usuario correcto
+
+└ Login almacen - guarda token_almacen
+  POST http://localhost:8080/api/v1/auth/login [200 OK, 878B, 149ms]
+  √  HTTP 200 esperado
+  √  Token JWT recibido
+  √  Usuario correcto
+
+□ 02. JWT y errores de acceso
+└ Productos sin token - 401
+  GET http://localhost:8080/api/v1/productos [401 Unauthorized, 659B, 12ms]
+  √  HTTP 401 esperado
+
+└ Credenciales incorrectas - 401
+  POST http://localhost:8080/api/v1/auth/login [401 Unauthorized, 610B, 153ms]
+  √  HTTP 401 esperado
+
+└ JWT inválido - 401
+  GET http://localhost:8080/api/v1/productos [401 Unauthorized, 633B, 33ms]
+  √  HTTP 401 esperado
+
+└ Usuario actual admin - GET auth/me
+  GET http://localhost:8080/api/v1/auth/me [200 OK, 763B, 68ms]
+  √  HTTP 200 esperado
+  √  Identidad autenticada correcta
+
+└ Usuario actual vendedor - GET auth/me
+  GET http://localhost:8080/api/v1/auth/me [200 OK, 708B, 58ms]
+  √  HTTP 200 esperado
+  √  Identidad autenticada correcta
+
+└ Usuario actual almacen - GET auth/me
+  GET http://localhost:8080/api/v1/auth/me [200 OK, 659B, 71ms]
+  √  HTTP 200 esperado
+  √  Identidad autenticada correcta
+
+□ 03. Matriz de permisos
+└ admin - GET productos -> 200
+  GET http://localhost:8080/api/v1/productos [200 OK, 2.67kB, 53ms]
+  √  HTTP 200 esperado
+
+└ admin - POST productos -> 400
+  POST http://localhost:8080/api/v1/productos [400 Bad Request, 772B, 58ms]
+  √  HTTP 400 esperado
+
+└ admin - GET clientes -> 200
+  GET http://localhost:8080/api/v1/clientes [200 OK, 513B, 48ms]
+  √  HTTP 200 esperado
+
+└ admin - POST ventas -> 400
+  POST http://localhost:8080/api/v1/ventas [400 Bad Request, 665B, 29ms]
+  √  HTTP 400 esperado
+
+└ admin - GET reportes/ventas-por-categoria -> 200
+  GET http://localhost:8080/api/v1/reportes/ventas-por-categoria [200 OK, 425B, 280ms]
+  √  HTTP 200 esperado
+
+└ vendedor - GET productos -> 200
+  GET http://localhost:8080/api/v1/productos [200 OK, 2.67kB, 56ms]
+  √  HTTP 200 esperado
+
+└ vendedor - POST productos -> 403
+  POST http://localhost:8080/api/v1/productos [403 Forbidden, 626B, 25ms]
+  √  HTTP 403 esperado
+
+└ vendedor - GET clientes -> 200
+  GET http://localhost:8080/api/v1/clientes [200 OK, 513B, 27ms]
+  √  HTTP 200 esperado
+
+└ vendedor - POST ventas -> 400
+  POST http://localhost:8080/api/v1/ventas [400 Bad Request, 665B, 50ms]
+  √  HTTP 400 esperado
+
+└ vendedor - GET reportes/ventas-por-categoria -> 403
+  GET http://localhost:8080/api/v1/reportes/ventas-por-categoria [403 Forbidden, 646B, 46ms]
+  √  HTTP 403 esperado
+
+└ almacen - GET productos -> 200
+  GET http://localhost:8080/api/v1/productos [200 OK, 2.67kB, 48ms]
+  √  HTTP 200 esperado
+
+└ almacen - POST productos -> 400
+  POST http://localhost:8080/api/v1/productos [400 Bad Request, 771B, 24ms]
+  √  HTTP 400 esperado
+
+└ almacen - GET clientes -> 403
+  GET http://localhost:8080/api/v1/clientes [403 Forbidden, 625B, 48ms]
+  √  HTTP 403 esperado
+
+└ almacen - POST ventas -> 403
+  POST http://localhost:8080/api/v1/ventas [403 Forbidden, 623B, 47ms]
+  √  HTTP 403 esperado
+
+└ almacen - GET reportes/ventas-por-categoria -> 403
+  GET http://localhost:8080/api/v1/reportes/ventas-por-categoria [403 Forbidden, 646B, 18ms]
+  √  HTTP 403 esperado
+
+□ 04. Categoría exclusiva de prueba
+└ Crear categoría de prueba
+  POST http://localhost:8080/api/v1/categorias [201 Created, 612B, 189ms]
+  √  HTTP 201 esperado
+  √  ID de prueba recibido
+
+└ Listar categorías
+  GET http://localhost:8080/api/v1/categorias [200 OK, 758B, 39ms]
+  √  HTTP 200 esperado
+  √  Categoría existente disponible para el producto
+
+└ Consultar categoría creada
+  GET http://localhost:8080/api/v1/categorias/21 [200 OK, 606B, 55ms]
+  √  HTTP 200 esperado
+
+└ Actualizar categoría creada
+  PUT http://localhost:8080/api/v1/categorias/21 [200 OK, 629B, 74ms]
+  √  HTTP 200 esperado
+
+□ 05. CRUD de productos autenticado
+└ Crear producto de prueba
+  POST http://localhost:8080/api/v1/productos [201 Created, 638B, 73ms]
+  √  HTTP 201 esperado
+  √  ID de prueba recibido
+
+└ Listar productos paginados
+  GET http://localhost:8080/api/v1/productos?pagina=0&tamanio=100&ordenarPor=id&direccion=asc [200 OK, 2.88kB, 65ms]
+  √  HTTP 200 esperado
+
+└ Consultar producto creado
+  GET http://localhost:8080/api/v1/productos/81 [200 OK, 632B, 52ms]
+  √  HTTP 200 esperado
+  √  Producto exclusivo de esta ejecución
+
+└ Actualizar producto creado
+  PUT http://localhost:8080/api/v1/productos/81 [200 OK, 658B, 75ms]
+  √  HTTP 200 esperado
+  √  Precio actualizado
+
+□ 06. Clientes de prueba
+└ Crear cliente de prueba
+  POST http://localhost:8080/api/v1/clientes [201 Created, 699B, 266ms]
+  √  HTTP 201 esperado
+  √  ID de prueba recibido
+
+└ Listar clientes
+  GET http://localhost:8080/api/v1/clientes?pagina=0&tamanio=100 [200 OK, 785B, 48ms]
+  √  HTTP 200 esperado
+
+└ Consultar cliente creado
+  GET http://localhost:8080/api/v1/clientes/1 [200 OK, 694B, 61ms]
+  √  HTTP 200 esperado
+
+└ Actualizar cliente creado
+  PUT http://localhost:8080/api/v1/clientes/1 [200 OK, 701B, 79ms]
+  √  HTTP 200 esperado
+
+□ 07. Ventas
+└ Listar ventas
+  GET http://localhost:8080/api/v1/ventas?pagina=0&tamanio=20 [200 OK, 513B, 127ms]
+  √  HTTP 200 esperado
+
+└ Buscar ventas
+  GET http://localhost:8080/api/v1/ventas/buscar [200 OK, 513B, 36ms]
+  √  HTTP 200 esperado
+
+└ Registrar venta de prueba (opcional)
+  ┌
+  │ 'Operación omitida: falta crear su registro exclusivo 
+  │ de prueba.'
+  └
+
+└ Consultar venta recién creada (opcional)
+  ┌
+  │ 'Operación omitida: falta crear su registro exclusivo 
+  │ de prueba.'
+  └
+
+□ 08. Reportes
+└ Ventas por categoría - admin
+  GET http://localhost:8080/api/v1/reportes/ventas-por-categoria [200 OK, 425B, 38ms]
+  √  HTTP 200 esperado
+
+└ Productos más vendidos - admin
+  GET http://localhost:8080/api/v1/reportes/productos-mas-vendidos [200 OK, 425B, 202ms]
+  √  HTTP 200 esperado
+
+□ 09. Administración de seguridad
+└ Listar usuarios sin contraseñas
+  GET http://localhost:8080/api/v1/usuarios [200 OK, 1.29kB, 93ms]
+  √  HTTP 200 esperado
+  √  Sin contraseñas en respuesta
+
+└ Listar empleados
+  GET http://localhost:8080/api/v1/empleados [200 OK, 1.18kB, 94ms]
+  √  HTTP 200 esperado
+
+└ Listar roles y permisos
+  GET http://localhost:8080/api/v1/roles [200 OK, 960B, 72ms]
+  √  HTTP 200 esperado
+
+└ Crear usuario (opcional; persiste)
+  ┌
+  │ 'Crear usuario omitido: requiere configuración explíci
+  │ ta.'
+  └
+
+□ 10. Limpieza de los registros creados
+└ Eliminar producto de prueba
+  DELETE http://localhost:8080/api/v1/productos/81 [204 No Content, 371B, 42ms]
+  √  HTTP 204 esperado
+
+└ Comprobar producto inactivo
+  GET http://localhost:8080/api/v1/productos/81 [200 OK, 657B, 37ms]
+  √  HTTP 200 esperado
+  √  Borrado lógico confirmado
+
+└ Eliminar cliente de prueba
+  DELETE http://localhost:8080/api/v1/clientes/1 [204 No Content, 371B, 59ms]
+  √  HTTP 204 esperado
+
+└ Comprobar cliente inactivo
+  GET http://localhost:8080/api/v1/clientes/1 [200 OK, 726B, 50ms]
+  √  HTTP 200 esperado
+  √  Borrado lógico confirmado
+
+└ Eliminar categoría de prueba
+  DELETE http://localhost:8080/api/v1/categorias/21 [204 No Content, 371B, 94ms]
+  √  HTTP 204 esperado
+
+└ Comprobar categoría eliminada - 404
+  GET http://localhost:8080/api/v1/categorias/21 [404 Not Found, 608B, 84ms]
+  √  HTTP 404 esperado
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                50 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                50 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                47 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                68 │                 0 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 8s                                          │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 20.55kB (approx)                           │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 80ms [min: 12ms, max: 280ms, s.d.: 62ms] │
+└─────────────────────────────────────────────────────────────────┘

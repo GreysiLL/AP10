@@ -1,0 +1,2462 @@
+{
+  "info": {
+    "_postman_id": "403505d2-2843-437b-a16e-700c700eb634",
+    "name": "PharmaSoft - Practica 10 - API completa y seguridad",
+    "description": "Generada contra OpenAPI del backend actualizado de la practica 10 (28 operaciones). Ejecutar la coleccion EN ORDEN, una iteracion. Login guarda tokens en variables de coleccion. CRUD crea una categoria, producto y cliente temporales y da de baja logicamente producto/cliente y elimina fisicamente la categoria temporal al final. NO modifica IDs de registros preexistentes. Ventas y creacion de usuarios estan desactivadas; habilitarlas requiere configurar sus variables. No prueba persistencia cifrada ni interfaz de PharmaMobil: eso se verifica en Android/iOS.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token_admin}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "00. Salud del servidor",
+      "description": "",
+      "item": [
+        {
+          "name": "Servidor disponible - GET health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/health",
+            "description": "Servidor disponible - GET health",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01. Login de los tres usuarios",
+      "description": "Ejecutar primero. Los tokens se guardan automáticamente; no hace falta copiarlos ni escribir Bearer.",
+      "item": [
+        {
+          "name": "Login admin - guarda token_admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/auth/login",
+            "description": "Login admin - guarda token_admin",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"Admin123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"sufijoPrueba\", Date.now().toString()+\"_\"+Math.floor(Math.random()*10000));",
+                  "pm.collectionVariables.set(\"dniPrueba\",String(80000000+Math.floor(Math.random()*9999999)));",
+                  "pm.collectionVariables.set(\"pruebaCategoriaId\", \"\");",
+                  "pm.collectionVariables.set(\"categoriaProductoId\", \"\");",
+                  "pm.collectionVariables.set(\"pruebaProductoId\", \"\");",
+                  "pm.collectionVariables.set(\"pruebaClienteId\", \"\");",
+                  "pm.collectionVariables.set(\"pruebaVentaId\", \"\");",
+                  "pm.collectionVariables.set(\"pruebaUsuarioId\", \"\");",
+                  "pm.collectionVariables.set(\"token_admin\", \"\");",
+                  "pm.collectionVariables.set(\"token_vendedor\", \"\");",
+                  "pm.collectionVariables.set(\"token_almacen\", \"\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "if(pm.response.code===200) { const j=pm.response.json(); pm.test(\"Token JWT recibido\",()=>pm.expect(j.token.split(\".\")).to.have.lengthOf(3)); pm.test(\"Usuario correcto\",()=>pm.expect(j.username).to.eql(\"admin\")); pm.collectionVariables.set(\"token_admin\",j.token); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login vendedor - guarda token_vendedor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/auth/login",
+            "description": "Login vendedor - guarda token_vendedor",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"vendedor\",\n  \"password\": \"Vendedor123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "if(pm.response.code===200) { const j=pm.response.json(); pm.test(\"Token JWT recibido\",()=>pm.expect(j.token.split(\".\")).to.have.lengthOf(3)); pm.test(\"Usuario correcto\",()=>pm.expect(j.username).to.eql(\"vendedor\")); pm.collectionVariables.set(\"token_vendedor\",j.token); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login almacen - guarda token_almacen",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/auth/login",
+            "description": "Login almacen - guarda token_almacen",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"almacen\",\n  \"password\": \"Almacen123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "if(pm.response.code===200) { const j=pm.response.json(); pm.test(\"Token JWT recibido\",()=>pm.expect(j.token.split(\".\")).to.have.lengthOf(3)); pm.test(\"Usuario correcto\",()=>pm.expect(j.username).to.eql(\"almacen\")); pm.collectionVariables.set(\"token_almacen\",j.token); }"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02. JWT y errores de acceso",
+      "description": "",
+      "item": [
+        {
+          "name": "Productos sin token - 401",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos",
+            "description": "Productos sin token - 401",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([401]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Credenciales incorrectas - 401",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/auth/login",
+            "description": "Credenciales incorrectas - 401",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"incorrecta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([401]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "JWT inválido - 401",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos",
+            "description": "JWT inválido - 401",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "token-invalido-prueba-S10",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([401]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Usuario actual admin - GET auth/me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/auth/me",
+            "description": "Usuario actual admin - GET auth/me",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"Identidad autenticada correcta\",()=>pm.expect(pm.response.json().username).to.eql(\"admin\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Usuario actual vendedor - GET auth/me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/auth/me",
+            "description": "Usuario actual vendedor - GET auth/me",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_vendedor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_vendedor\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"Identidad autenticada correcta\",()=>pm.expect(pm.response.json().username).to.eql(\"vendedor\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Usuario actual almacen - GET auth/me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/auth/me",
+            "description": "Usuario actual almacen - GET auth/me",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_almacen}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_almacen\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"Identidad autenticada correcta\",()=>pm.expect(pm.response.json().username).to.eql(\"almacen\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03. Matriz de permisos",
+      "description": "Un 403 esperado es una prueba aprobada. POST {} comprueba permisos: un 400 indica que la autorización pasó y faltan datos; no crea registros.",
+      "item": [
+        {
+          "name": "admin - GET productos -> 200",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos",
+            "description": "admin - GET productos -> 200",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "admin - POST productos -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos",
+            "description": "admin - POST productos -> 400",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([400]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "admin - GET clientes -> 200",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/clientes",
+            "description": "admin - GET clientes -> 200",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "admin - POST ventas -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/ventas",
+            "description": "admin - POST ventas -> 400",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([400]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "admin - GET reportes/ventas-por-categoria -> 200",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/reportes/ventas-por-categoria",
+            "description": "admin - GET reportes/ventas-por-categoria -> 200",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "vendedor - GET productos -> 200",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos",
+            "description": "vendedor - GET productos -> 200",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_vendedor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_vendedor\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "vendedor - POST productos -> 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos",
+            "description": "vendedor - POST productos -> 403",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_vendedor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_vendedor\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([403]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "vendedor - GET clientes -> 200",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/clientes",
+            "description": "vendedor - GET clientes -> 200",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_vendedor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_vendedor\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "vendedor - POST ventas -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/ventas",
+            "description": "vendedor - POST ventas -> 400",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_vendedor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_vendedor\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([400]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "vendedor - GET reportes/ventas-por-categoria -> 403",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/reportes/ventas-por-categoria",
+            "description": "vendedor - GET reportes/ventas-por-categoria -> 403",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_vendedor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_vendedor\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([403]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "almacen - GET productos -> 200",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos",
+            "description": "almacen - GET productos -> 200",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_almacen}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_almacen\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "almacen - POST productos -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos",
+            "description": "almacen - POST productos -> 400",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_almacen}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_almacen\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([400]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "almacen - GET clientes -> 403",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/clientes",
+            "description": "almacen - GET clientes -> 403",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_almacen}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_almacen\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([403]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "almacen - POST ventas -> 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/ventas",
+            "description": "almacen - POST ventas -> 403",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_almacen}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_almacen\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([403]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "almacen - GET reportes/ventas-por-categoria -> 403",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/reportes/ventas-por-categoria",
+            "description": "almacen - GET reportes/ventas-por-categoria -> 403",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_almacen}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_almacen\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([403]); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04. Categoría exclusiva de prueba",
+      "description": "Se crea antes del producto; se elimina al final, después de eliminar el producto.",
+      "item": [
+        {
+          "name": "Crear categoría de prueba",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/categorias",
+            "description": "Crear categoría de prueba",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"PM10_{{sufijoPrueba}}\",\n  \"descripcion\": \"Prueba automatizada de la práctica 10\",\n  \"estado\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\") { console.warn(\"CRUD de prueba desactivado.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([201]); });",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const j = pm.response.json(); pm.test(\"ID de prueba recibido\", () => pm.expect(j.id).to.be.a(\"number\")); pm.collectionVariables.set(\"pruebaCategoriaId\",String(j.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar categorías",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/categorias",
+            "description": "Listar categorías"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "if(pm.response.code===200) { const j=pm.response.json(); const rows=Array.isArray(j)?j:j.contenido; const c=rows.find(x=>x.estado && String(x.id)!==pm.collectionVariables.get(\"pruebaCategoriaId\")); if(c)pm.collectionVariables.set(\"categoriaProductoId\",String(c.id)); pm.test(\"Categoría existente disponible para el producto\",()=>pm.expect(c).to.be.an(\"object\")); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar categoría creada",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/categorias/{{pruebaCategoriaId}}",
+            "description": "Consultar categoría creada"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaCategoriaId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Actualizar categoría creada",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/categorias/{{pruebaCategoriaId}}",
+            "description": "Actualizar categoría creada",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"PM10_{{sufijoPrueba}}\",\n  \"descripcion\": \"Descripción actualizada por Postman\",\n  \"estado\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaCategoriaId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05. CRUD de productos autenticado",
+      "description": "",
+      "item": [
+        {
+          "name": "Crear producto de prueba",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos",
+            "description": "Crear producto de prueba",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Producto PM10 {{sufijoPrueba}}\",\n  \"precio\": 2.5,\n  \"stock\": 5,\n  \"estado\": true,\n  \"categoriaId\": {{categoriaProductoId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"categoriaProductoId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([201]); });",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const j = pm.response.json(); pm.test(\"ID de prueba recibido\", () => pm.expect(j.id).to.be.a(\"number\")); pm.collectionVariables.set(\"pruebaProductoId\",String(j.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar productos paginados",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos?pagina=0&tamanio=100&ordenarPor=id&direccion=asc",
+            "description": "Listar productos paginados"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar producto creado",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos/{{pruebaProductoId}}",
+            "description": "Consultar producto creado"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaProductoId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"Producto exclusivo de esta ejecución\",()=>pm.expect(pm.response.json().nombre).to.include(pm.collectionVariables.get(\"sufijoPrueba\")));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Actualizar producto creado",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos/{{pruebaProductoId}}",
+            "description": "Actualizar producto creado",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Producto PM10 {{sufijoPrueba}}\",\n  \"precio\": 3.75,\n  \"stock\": 7,\n  \"estado\": true,\n  \"categoriaId\": {{categoriaProductoId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaProductoId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"Precio actualizado\",()=>pm.expect(pm.response.json().precio).to.eql(3.75));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06. Clientes de prueba",
+      "description": "",
+      "item": [
+        {
+          "name": "Crear cliente de prueba",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/clientes",
+            "description": "Crear cliente de prueba",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dni\": \"{{dniPrueba}}\",\n  \"nombres\": \"Cliente Prueba\",\n  \"apellidos\": \"Postman S10\",\n  \"email\": \"pm10_{{sufijoPrueba}}@example.com\",\n  \"telefono\": \"987654321\",\n  \"direccion\": \"Datos ficticios de prueba\",\n  \"estado\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\") { console.warn(\"CRUD de prueba desactivado.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([201]); });",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const j = pm.response.json(); pm.test(\"ID de prueba recibido\", () => pm.expect(j.id).to.be.a(\"number\")); pm.collectionVariables.set(\"pruebaClienteId\",String(j.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar clientes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/clientes?pagina=0&tamanio=100",
+            "description": "Listar clientes"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar cliente creado",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/clientes/{{pruebaClienteId}}",
+            "description": "Consultar cliente creado"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaClienteId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Actualizar cliente creado",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/clientes/{{pruebaClienteId}}",
+            "description": "Actualizar cliente creado",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dni\": \"{{dniPrueba}}\",\n  \"nombres\": \"Cliente Prueba\",\n  \"apellidos\": \"Postman S10\",\n  \"email\": \"pm10_{{sufijoPrueba}}@example.com\",\n  \"telefono\": \"987654321\",\n  \"direccion\": \"Dirección actualizada de prueba\",\n  \"estado\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaClienteId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "07. Ventas",
+      "description": "Lecturas activas. Registrar venta está desactivado: ejecutarVentas=false. Habilitarlo crea una venta real de prueba, reduce stock del producto de prueba y conserva historial: la API no tiene DELETE ventas.",
+      "item": [
+        {
+          "name": "Listar ventas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/ventas?pagina=0&tamanio=20",
+            "description": "Listar ventas"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar ventas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/ventas/buscar",
+            "description": "Buscar ventas"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Registrar venta de prueba (opcional)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/ventas",
+            "description": "Registrar venta de prueba (opcional)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": {{pruebaClienteId}},\n  \"detalles\": [\n    {\n      \"productoId\": {{pruebaProductoId}},\n      \"cantidad\": 1\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarVentas\") !== \"true\" || !pm.collectionVariables.get(\"pruebaClienteId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarVentas\") !== \"true\" || !pm.collectionVariables.get(\"pruebaProductoId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200/201 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 201]); });",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const j = pm.response.json(); pm.test(\"ID de prueba recibido\", () => pm.expect(j.id).to.be.a(\"number\")); pm.collectionVariables.set(\"pruebaVentaId\",String(j.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar venta recién creada (opcional)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/ventas/{{pruebaVentaId}}",
+            "description": "Consultar venta recién creada (opcional)"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarVentas\") !== \"true\" || !pm.collectionVariables.get(\"pruebaVentaId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "08. Reportes",
+      "description": "",
+      "item": [
+        {
+          "name": "Ventas por categoría - admin",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/reportes/ventas-por-categoria",
+            "description": "Ventas por categoría - admin"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Productos más vendidos - admin",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/reportes/productos-mas-vendidos",
+            "description": "Productos más vendidos - admin"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "09. Administración de seguridad",
+      "description": "Lecturas activas. Crear usuario desactivado por defecto: la API no ofrece DELETE usuario. Configurar empleadoSinUsuarioId y rolIdUsuarioNuevo después de inspeccionar empleados y roles; no se asignan automáticamente a un empleado existente.",
+      "item": [
+        {
+          "name": "Listar usuarios sin contraseñas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/usuarios",
+            "description": "Listar usuarios sin contraseñas"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"Sin contraseñas en respuesta\",()=>{ pm.response.json().forEach(u=>pm.expect(u).not.to.have.property(\"password\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar empleados",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/empleados",
+            "description": "Listar empleados"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar roles y permisos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/roles",
+            "description": "Listar roles y permisos"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear usuario (opcional; persiste)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/usuarios",
+            "description": "Crear usuario (opcional; persiste)",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"pm10_{{sufijoPrueba}}\",\n  \"password\": \"Prueba10Temporal\",\n  \"empleadoId\": {{empleadoSinUsuarioId}},\n  \"rolIds\": [\n    {{rolIdUsuarioNuevo}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"crearUsuario\") !== \"true\" || !pm.variables.get(\"empleadoSinUsuarioId\") || !pm.variables.get(\"rolIdUsuarioNuevo\")) { console.warn(\"Crear usuario omitido: requiere configuración explícita.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([201]); });",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const j = pm.response.json(); pm.test(\"ID de prueba recibido\", () => pm.expect(j.id).to.be.a(\"number\")); pm.collectionVariables.set(\"pruebaUsuarioId\",String(j.id)); }"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "10. Limpieza de los registros creados",
+      "description": "Solo usa IDs guardados tras los POST de esta ejecución. Productos y clientes: baja lógica. La categoría temporal no se asocia a productos, por lo que se elimina físicamente. El producto temporal se asocia a una categoría existente, sin modificarla.",
+      "item": [
+        {
+          "name": "Eliminar producto de prueba",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos/{{pruebaProductoId}}",
+            "description": "Eliminar producto de prueba"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaProductoId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([204]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Comprobar producto inactivo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/productos/{{pruebaProductoId}}",
+            "description": "Comprobar producto inactivo"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaProductoId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"Borrado lógico confirmado\",()=>pm.expect(pm.response.json().estado).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar cliente de prueba",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/clientes/{{pruebaClienteId}}",
+            "description": "Eliminar cliente de prueba"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaClienteId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([204]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Comprobar cliente inactivo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/clientes/{{pruebaClienteId}}",
+            "description": "Comprobar cliente inactivo"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaClienteId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"Borrado lógico confirmado\",()=>pm.expect(pm.response.json().estado).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar categoría de prueba",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/categorias/{{pruebaCategoriaId}}",
+            "description": "Eliminar categoría de prueba"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaCategoriaId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([204]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Comprobar categoría eliminada - 404",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/v1/categorias/{{pruebaCategoriaId}}",
+            "description": "Comprobar categoría eliminada - 404"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"token_admin\")) { console.warn(\"Ejecuta primero los logins de la carpeta 01.\"); pm.execution.skipRequest(); }",
+                  "if (pm.variables.get(\"ejecutarCRUD\") !== \"true\" || !pm.collectionVariables.get(\"pruebaCategoriaId\")) { console.warn(\"Operación omitida: falta crear su registro exclusivo de prueba.\"); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404 esperado\", function () { pm.expect(pm.response.code).to.be.oneOf([404]); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "ejecutarCRUD",
+      "value": "true",
+      "type": "string"
+    },
+    {
+      "key": "ejecutarVentas",
+      "value": "false",
+      "type": "string"
+    },
+    {
+      "key": "crearUsuario",
+      "value": "false",
+      "type": "string"
+    },
+    {
+      "key": "empleadoSinUsuarioId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rolIdUsuarioNuevo",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "token_admin",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "token_vendedor",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "token_almacen",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pruebaCategoriaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "categoriaProductoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pruebaProductoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pruebaClienteId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pruebaVentaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pruebaUsuarioId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sufijoPrueba",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "dniPrueba",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

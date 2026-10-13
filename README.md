@@ -160,3 +160,7 @@ EncryptedSharedPreferences está deprecado en AndroidX Security 1.1.0; se conser
 iOS: implementación de Keychain preparada; compilación y ejecución pendientes por falta de Mac/Xcode. No se presentan capturas iOS ni se afirma que esa plataforma está verificada.
 
 Repositorio de la práctica 10: https://github.com/GreysiLL/AP10/tree/feature/auth-jwt-duran
+
+### Comprobaciones de la API con Postman
+
+La carpeta [postman](postman/README.md) permite importar la colección y el entorno local para comprobar PharmaSoft. Incluye los 28 endpoints, 53 solicitudes, login automático de los tres roles y un CRUD de registros exclusivos de prueba. Verificada con Newman: 50 solicitudes ejecutadas y 68 comprobaciones aprobadas, sin fallos. Ventas y creación de usuarios son opcionales y están desactivadas por defecto. Los archivos no contienen tokens reales.

@@ -1,0 +1,263 @@
+{
+  "fechaLima": "2026-10-13T15:21:00.714344-05:00",
+  "ejecutor": "Newman 6.2.3",
+  "baseUrl": "http://localhost:8080",
+  "endpointsCubiertos": 28,
+  "solicitudesEnColeccion": 53,
+  "solicitudesEnviadas": 50,
+  "solicitudesOpcionalesOmitidas": 3,
+  "comprobacionesAprobadas": 68,
+  "fallos": 0,
+  "resultados": [
+    {
+      "solicitud": "Servidor disponible - GET health",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Login admin - guarda token_admin",
+      "codigoHttp": 200,
+      "pruebas": 3
+    },
+    {
+      "solicitud": "Login vendedor - guarda token_vendedor",
+      "codigoHttp": 200,
+      "pruebas": 3
+    },
+    {
+      "solicitud": "Login almacen - guarda token_almacen",
+      "codigoHttp": 200,
+      "pruebas": 3
+    },
+    {
+      "solicitud": "Productos sin token - 401",
+      "codigoHttp": 401,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Credenciales incorrectas - 401",
+      "codigoHttp": 401,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "JWT inválido - 401",
+      "codigoHttp": 401,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Usuario actual admin - GET auth/me",
+      "codigoHttp": 200,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Usuario actual vendedor - GET auth/me",
+      "codigoHttp": 200,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Usuario actual almacen - GET auth/me",
+      "codigoHttp": 200,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "admin - GET productos -> 200",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "admin - POST productos -> 400",
+      "codigoHttp": 400,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "admin - GET clientes -> 200",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "admin - POST ventas -> 400",
+      "codigoHttp": 400,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "admin - GET reportes/ventas-por-categoria -> 200",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "vendedor - GET productos -> 200",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "vendedor - POST productos -> 403",
+      "codigoHttp": 403,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "vendedor - GET clientes -> 200",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "vendedor - POST ventas -> 400",
+      "codigoHttp": 400,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "vendedor - GET reportes/ventas-por-categoria -> 403",
+      "codigoHttp": 403,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "almacen - GET productos -> 200",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "almacen - POST productos -> 400",
+      "codigoHttp": 400,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "almacen - GET clientes -> 403",
+      "codigoHttp": 403,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "almacen - POST ventas -> 403",
+      "codigoHttp": 403,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "almacen - GET reportes/ventas-por-categoria -> 403",
+      "codigoHttp": 403,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Crear categoría de prueba",
+      "codigoHttp": 201,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Listar categorías",
+      "codigoHttp": 200,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Consultar categoría creada",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Actualizar categoría creada",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Crear producto de prueba",
+      "codigoHttp": 201,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Listar productos paginados",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Consultar producto creado",
+      "codigoHttp": 200,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Actualizar producto creado",
+      "codigoHttp": 200,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Crear cliente de prueba",
+      "codigoHttp": 201,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Listar clientes",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Consultar cliente creado",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Actualizar cliente creado",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Listar ventas",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Buscar ventas",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Ventas por categoría - admin",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Productos más vendidos - admin",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Listar usuarios sin contraseñas",
+      "codigoHttp": 200,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Listar empleados",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Listar roles y permisos",
+      "codigoHttp": 200,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Eliminar producto de prueba",
+      "codigoHttp": 204,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Comprobar producto inactivo",
+      "codigoHttp": 200,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Eliminar cliente de prueba",
+      "codigoHttp": 204,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Comprobar cliente inactivo",
+      "codigoHttp": 200,
+      "pruebas": 2
+    },
+    {
+      "solicitud": "Eliminar categoría de prueba",
+      "codigoHttp": 204,
+      "pruebas": 1
+    },
+    {
+      "solicitud": "Comprobar categoría eliminada - 404",
+      "codigoHttp": 404,
+      "pruebas": 1
+    }
+  ]
+}
