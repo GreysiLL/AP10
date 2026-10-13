@@ -158,3 +158,5 @@ Verificación automática: `powershell -NoProfile -ExecutionPolicy Bypass -File 
 La Activity de comprobaciones de seguridad existe solo en debug. Permite provocar el 403 con almacén y el cierre por 401 con un token deliberadamente inválido; esta última comprobación borra la sesión de prueba.
 EncryptedSharedPreferences está deprecado en AndroidX Security 1.1.0; se conserva para cumplir la implementación indicada en la guía, sin migrar otros mecanismos durante esta práctica.
 iOS: implementación de Keychain preparada; compilación y ejecución pendientes por falta de Mac/Xcode. No se presentan capturas iOS ni se afirma que esa plataforma está verificada.
+
+Repositorio de la práctica 10: https://github.com/GreysiLL/AP10/tree/feature/auth-jwt-duran

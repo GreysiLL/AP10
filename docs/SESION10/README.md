@@ -34,7 +34,7 @@ POST 201, GET 200, PUT 200 y DELETE 204 están en ktor-android.log. El producto 
 
 La matriz de permisos usa POST {}: cuando existe permiso obtiene 400 de validación. Esas comprobaciones prueban autorización, no creación de ventas. No se registraron ventas reales.
 
-Repositorio de entrega pendiente: el usuario lo indicará al terminar. La rama local es feature/auth-jwt-duran. No se afirma que esté subida.
+Repositorio de entrega: https://github.com/GreysiLL/AP10/tree/feature/auth-jwt-duran. Rama: feature/auth-jwt-duran. La subida se verifica comparando el commit local con la referencia remota.
 
 ## Comprobación adicional en Swagger
 
