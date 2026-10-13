@@ -55,6 +55,12 @@ class AppModuleTest {
 
     private fun grafoCompleto(): Koin = startKoin {
         modules(dataModule, domainModule, presentationModule, platformModule, module {
+            single<pe.edu.upeu.pharmamobil.data.local.AlmacenSeguro> { object : pe.edu.upeu.pharmamobil.data.local.AlmacenSeguro {
+                override fun guardarToken(token: String) {}
+                override fun leerToken(): String? = null
+                override fun borrarToken() {}
+            } }
+            single(org.koin.core.qualifier.named("depuracion")) { false }
             single<HttpClientEngine> { MockEngine {
                 respond("""{"contenido":[],"pagina":0,"tamanio":20,"totalElementos":0,"totalPaginas":0,"ultima":true}""",
                     headers = headersOf(HttpHeaders.ContentType, "application/json"))
@@ -68,7 +74,7 @@ class AppModuleTest {
         val koin = grafoCompleto()
 
         assertIs<ProductoRepositorioRest>(koin.get<ProductoRepository>())
-        assertIs<ClienteRepositorioEnMemoria>(koin.get<ClienteRepository>())
+        assertIs<pe.edu.upeu.pharmamobil.data.repository.ClienteRepositorioRest>(koin.get<ClienteRepository>())
     }
 
     @Test

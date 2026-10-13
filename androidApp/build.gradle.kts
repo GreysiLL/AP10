@@ -11,6 +11,10 @@ kotlin {
     }
 }
 dependencies {
+    debugImplementation(libs.compose.foundation)
+    debugImplementation(libs.compose.material3)
+    debugImplementation(libs.ktor.client.core)
+    debugImplementation(libs.ktor.client.auth)
     implementation(project(":shared"))
 
     implementation(libs.androidx.activity.compose)
