@@ -139,7 +139,7 @@ private fun AppAutenticada(sesion: pe.edu.upeu.pharmamobil.domain.model.Sesion, 
 
             drawerContent = {
 
-                ModalDrawerSheet {
+                ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface) {
 
                     DrawerHeader()
 
@@ -183,7 +183,9 @@ private fun AppAutenticada(sesion: pe.edu.upeu.pharmamobil.domain.model.Sesion, 
 
                     HorizontalDivider()
 
-                    Text(sesion.nombreCompleto, modifier = Modifier.padding(horizontal = 24.dp))
+                    Spacer(Modifier.height(16.dp))
+                    Text("Sesión activa", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(horizontal = 24.dp))
+                    Text(sesion.nombreCompleto, style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(horizontal = 24.dp, vertical = 6.dp))
                     androidx.compose.material3.TextButton(onClick = cerrarSesion) { Text("Cerrar sesión") }
 
                     ModoOscuro(
@@ -201,9 +203,10 @@ private fun AppAutenticada(sesion: pe.edu.upeu.pharmamobil.domain.model.Sesion, 
                     TopAppBar(
 
                         title = {
-                            Text(
-                                text = if (detalleId != null) "Detalle del producto" else tituloDe(pantallaActual)
-                            )
+                            Column {
+                                Text(text = if (detalleId != null) "Detalle del producto" else tituloDe(pantallaActual), style = MaterialTheme.typography.titleLarge)
+                                Text("PharmaMobil", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
                         },
 
                         navigationIcon = {
@@ -226,9 +229,9 @@ private fun AppAutenticada(sesion: pe.edu.upeu.pharmamobil.domain.model.Sesion, 
                         },
 
                         colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            titleContentColor = MaterialTheme.colorScheme.onSurface,
+                            navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                         )
                     )
                 }

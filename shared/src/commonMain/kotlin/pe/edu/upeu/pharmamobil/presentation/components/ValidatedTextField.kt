@@ -1,6 +1,8 @@
 package pe.edu.upeu.pharmamobil.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -26,6 +28,8 @@ fun ValidatedTextField(
     val apoyo = error ?: ayuda
 
     OutlinedTextField(
+        shape = MaterialTheme.shapes.small,
+        colors = OutlinedTextFieldDefaults.colors(unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant),
         value = value,
         onValueChange = onValueChange,
         label = {

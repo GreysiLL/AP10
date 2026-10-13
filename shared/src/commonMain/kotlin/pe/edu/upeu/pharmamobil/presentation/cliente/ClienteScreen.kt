@@ -25,6 +25,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -43,15 +50,22 @@ fun ClienteScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var mostrarFormulario by rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(uiState.mensajeExito) { if(uiState.mensajeExito != null) mostrarFormulario = false }
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(horizontal = 20.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        FormularioClienteCard(
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text("Clientes", style = MaterialTheme.typography.headlineSmall, modifier = Modifier.weight(1f))
+            if(mostrarFormulario) TextButton(enabled = !uiState.registrando, onClick = { mostrarFormulario = false }) { Text("Cerrar formulario") }
+            else Button(onClick = { mostrarFormulario = true }, shape = MaterialTheme.shapes.small) { Text("Nuevo cliente") }
+        }
+        if(mostrarFormulario) FormularioClienteCard(
             formulario = uiState.formulario,
             registrando = uiState.registrando,
             onNombreChange = viewModel::onNombreChange,
@@ -144,7 +158,9 @@ private fun FormularioClienteCard(
 ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
 
         Column(
@@ -191,6 +207,7 @@ private fun FormularioClienteCard(
             )
 
             Button(
+                shape = MaterialTheme.shapes.small,
                 onClick = onRegistrar,
                 enabled = !registrando,
                 modifier = Modifier.fillMaxWidth()
@@ -238,7 +255,9 @@ private fun ClienteItem(
 ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
 
         Row(
