@@ -18,6 +18,8 @@ suspend fun <T> ejecutarLlamada(bloque: suspend () -> T): Result<T> = try {
  catch(_: Exception) { null }
  val error = when(e.response.status.value) {
   400 -> if (cuerpo?.validationErrors.isNullOrEmpty()) ErrorApi.Conflicto(cuerpo?.message ?: "Solicitud no válida.") else ErrorApi.Validacion(cuerpo!!.validationErrors.orEmpty())
+  401 -> ErrorApi.SesionExpirada
+  403 -> ErrorApi.SinPermiso
   404 -> ErrorApi.NoEncontrado
   409 -> ErrorApi.Conflicto(cuerpo?.message ?: "Operación no permitida.")
   else -> ErrorApi.Servidor

@@ -1,6 +1,8 @@
 package pe.edu.upeu.pharmamobil.domain.error
 sealed interface ErrorApi {
  data class Validacion(val porCampo: Map<String, String>) : ErrorApi
+ data object SesionExpirada : ErrorApi
+ data object SinPermiso : ErrorApi
  data object NoEncontrado : ErrorApi
  data class Conflicto(val mensaje: String) : ErrorApi
  data object Servidor : ErrorApi
@@ -11,6 +13,8 @@ sealed interface ErrorApi {
 class ErrorApiException(val error: ErrorApi, val codigoHttp: Int? = null) : Exception(mensajeDe(error))
 fun mensajeDe(error: ErrorApi): String = when(error) {
  is ErrorApi.Validacion -> "Revisa los campos indicados."
+ ErrorApi.SesionExpirada -> "Tu sesión expiró. Inicia sesión nuevamente."
+ ErrorApi.SinPermiso -> "No tienes permiso para realizar esta operación."
  ErrorApi.NoEncontrado -> "Producto no encontrado."
  is ErrorApi.Conflicto -> error.mensaje
  ErrorApi.Servidor -> "El servidor no pudo completar la operación. Intenta nuevamente."

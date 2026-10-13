@@ -45,6 +45,7 @@ kotlin {
             // OkHttp 5.5 exige SDK 37; conservamos compatibilidad con SDK 36.
             implementation(project.dependencies.enforcedPlatform(libs.okhttp.bom))
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.security.crypto)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
             // api: MainApplication (androidApp) usa androidContext() al arrancar Koin.
@@ -53,6 +54,7 @@ kotlin {
         iosMain.dependencies { implementation(libs.ktor.client.darwin) }
         commonMain.dependencies {
             implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.auth)
             implementation(libs.ktor.client.contentNegotiation)
             implementation(libs.ktor.serialization.json)
             implementation(libs.ktor.client.logging)
