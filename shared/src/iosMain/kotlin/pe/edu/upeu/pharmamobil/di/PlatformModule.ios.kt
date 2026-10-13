@@ -7,6 +7,8 @@ import org.koin.dsl.module
 import pe.edu.upeu.pharmamobil.domain.platform.Compartidor
 import pe.edu.upeu.pharmamobil.platform.CompartidorIos
 actual val platformModule: Module = module {
+    single<pe.edu.upeu.pharmamobil.data.local.AlmacenSeguro> { pe.edu.upeu.pharmamobil.data.local.AlmacenSeguroIos() }
+    single(named("depuracion")) { kotlin.native.Platform.isDebugBinary }
     single<HttpClientEngine> { Darwin.create() }
     single(named("urlBase")) { "http://localhost:8080/api/v1/" }
     single<Compartidor> { CompartidorIos() }

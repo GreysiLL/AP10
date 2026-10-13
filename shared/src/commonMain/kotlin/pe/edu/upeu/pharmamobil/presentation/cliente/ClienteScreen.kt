@@ -55,6 +55,8 @@ fun ClienteScreen(
             formulario = uiState.formulario,
             registrando = uiState.registrando,
             onNombreChange = viewModel::onNombreChange,
+            onDniChange = viewModel::onDniChange,
+            onApellidosChange = viewModel::onApellidosChange,
             onCorreoChange = viewModel::onCorreoChange,
             onTelefonoChange = viewModel::onTelefonoChange,
             onRegistrar = viewModel::registrar
@@ -134,6 +136,8 @@ private fun FormularioClienteCard(
     formulario: FormularioCliente,
     registrando: Boolean,
     onNombreChange: (String) -> Unit,
+    onDniChange: (String) -> Unit,
+    onApellidosChange: (String) -> Unit,
     onCorreoChange: (String) -> Unit,
     onTelefonoChange: (String) -> Unit,
     onRegistrar: () -> Unit
@@ -152,6 +156,9 @@ private fun FormularioClienteCard(
                 text = "Registrar cliente",
                 style = MaterialTheme.typography.titleMedium
             )
+
+            androidx.compose.material3.OutlinedTextField(formulario.dni, onDniChange, label = { Text("DNI (8 dígitos)") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+            androidx.compose.material3.OutlinedTextField(formulario.apellidos, onApellidosChange, label = { Text("Apellidos") }, singleLine = true, modifier = Modifier.fillMaxWidth())
 
             ValidatedTextField(
                 value = formulario.nombre,

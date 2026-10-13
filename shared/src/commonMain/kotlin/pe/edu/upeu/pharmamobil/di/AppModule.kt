@@ -24,16 +24,21 @@ import pe.edu.upeu.pharmamobil.presentation.producto.ProductoViewModel
 
 
 val dataModule = module {
-    single<HttpClient> { crearHttpClient(get(), get(named("urlBase"))) } onClose { it?.close() }
+    single { pe.edu.upeu.pharmamobil.data.repository.EstadoSesion(get()) }
+    single<pe.edu.upeu.pharmamobil.domain.repository.ObservadorSesion> { get<pe.edu.upeu.pharmamobil.data.repository.EstadoSesion>() }
+    single<pe.edu.upeu.pharmamobil.domain.repository.AuthRepository> { pe.edu.upeu.pharmamobil.data.repository.AuthRepositorioRest(get(), get(), get()) }
+    single<HttpClient> { crearHttpClient(get(), get(named("urlBase")), almacen = get(), estadoSesion = get(), esDepuracion = get(named("depuracion"))) } onClose { it?.close() }
     single { ProductoApi(get()) }
     single<pe.edu.upeu.pharmamobil.domain.repository.PruebasErrores> { pe.edu.upeu.pharmamobil.data.remote.PruebasErroresRest(get(), get(named("urlBase"))) }
     single<pe.edu.upeu.pharmamobil.domain.repository.DiagnosticoConexion> { pe.edu.upeu.pharmamobil.data.remote.DiagnosticoConexionRest(get(), get(named("urlBase"))) }
     single { ProductoRepositorioEnMemoria() }
     single<ProductoRepository> { ProductoRepositorioRest(get(), 1L) }
-    single<ClienteRepository> { ClienteRepositorioEnMemoria() }
+    single<ClienteRepository> { pe.edu.upeu.pharmamobil.data.repository.ClienteRepositorioRest(get()) }
 }
 
 val domainModule = module {
+    factory { pe.edu.upeu.pharmamobil.domain.usecase.IniciarSesionUseCase(get()) }
+    factory { pe.edu.upeu.pharmamobil.domain.usecase.CerrarSesionUseCase(get()) }
     factory { RegistrarProductoUseCase(get()) }
     factory { ListarProductosUseCase(get()) }
     factory { pe.edu.upeu.pharmamobil.domain.usecase.ObtenerProductoUseCase(get()) }
@@ -44,6 +49,7 @@ val domainModule = module {
 }
 
 val presentationModule = module {
+    viewModel { pe.edu.upeu.pharmamobil.presentation.sesion.SesionViewModel(get(), get(), get(), get()) }
     viewModel { pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel(get(), get()) }
     viewModel { ProductoViewModel(get(), get(), get(), get(), get()) }
     viewModel { ClienteViewModel(get(), get()) }

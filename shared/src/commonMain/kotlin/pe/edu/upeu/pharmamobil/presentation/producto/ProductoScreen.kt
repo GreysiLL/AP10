@@ -45,7 +45,8 @@ import pe.edu.upeu.pharmamobil.presentation.components.ValidatedTextField
 fun ProductoScreen(
     viewModel: ProductoViewModel,
     modifier: Modifier = Modifier,
-    onAbrirDetalle: (Long) -> Unit = {}
+    onAbrirDetalle: (Long) -> Unit = {},
+    puedeEscribir: Boolean = true
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -68,7 +69,7 @@ fun ProductoScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        FormularioProductoCard(
+        if(puedeEscribir) FormularioProductoCard(
             formulario = uiState.formulario,
             registrando = uiState.registrando,
             onNombreChange = viewModel::onNombreChange,
@@ -129,7 +130,7 @@ fun ProductoScreen(
                             items = fase.productos,
                             key = { it.id }
                         ) { producto ->
-                            ProductoItem(producto, onAbrir = { onAbrirDetalle(producto.id) }, ocupado = uiState.registrando, onEditar = { viewModel.editar(producto.id) }, onEliminar = { porEliminar = producto })
+                            ProductoItem(producto, onAbrir = { onAbrirDetalle(producto.id) }, ocupado = uiState.registrando, onEditar = { viewModel.editar(producto.id) }, onEliminar = { porEliminar = producto }, puedeEscribir = puedeEscribir)
                         }
                     }
 
@@ -261,7 +262,7 @@ private fun ProductoItem(
     onAbrir: () -> Unit,
     ocupado: Boolean,
     onEditar: () -> Unit,
-    onEliminar: () -> Unit
+    onEliminar: () -> Unit, puedeEscribir: Boolean = true
 ) {
 
     Card(
@@ -307,8 +308,8 @@ private fun ProductoItem(
             }
 
             Column {
-                TextButton(enabled = !ocupado, onClick = onEditar) { Text("Editar") }
-                TextButton(enabled = !ocupado, onClick = onEliminar) { Text("Eliminar") }
+                if(puedeEscribir) TextButton(enabled = !ocupado, onClick = onEditar) { Text("Editar") }
+                if(puedeEscribir) TextButton(enabled = !ocupado, onClick = onEliminar) { Text("Eliminar") }
             }
             if (producto.requiereReposicion) {
 

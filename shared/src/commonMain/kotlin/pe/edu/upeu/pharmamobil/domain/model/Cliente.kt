@@ -4,7 +4,9 @@ data class Cliente(
     val id: Long,
     val nombre:String,
     val correo:String,
-    val telefono: String?
+    val telefono: String?,
+    val dni: String = "",
+    val apellidos: String = ""
 ){
 
     init {

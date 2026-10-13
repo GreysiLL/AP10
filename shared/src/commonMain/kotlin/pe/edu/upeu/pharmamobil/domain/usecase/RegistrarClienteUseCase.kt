@@ -33,7 +33,9 @@ class RegistrarClienteUseCase(
     suspend operator fun invoke(
         nombre: String,
         correo: String,
-        telefono: String
+        telefono: String,
+        dni: String = "",
+        apellidos: String = ""
     ): Result<Cliente> {
 
         val errores = ErroresDeCliente(
@@ -52,7 +54,9 @@ class RegistrarClienteUseCase(
                     id = 0L,
                     nombre = nombre.trim(),
                     correo = correo.trim(),
-                    telefono = telefono.trim().ifBlank { null }
+                    telefono = telefono.trim().ifBlank { null },
+                    dni = dni.trim(),
+                    apellidos = apellidos.trim()
                 )
             )
         }

@@ -53,6 +53,9 @@ class ClienteViewModel(
         }
     }
 
+    fun onDniChange(v: String) { _uiState.update { it.copy(formulario = it.formulario.copy(dni = v)) } }
+    fun onApellidosChange(v: String) { _uiState.update { it.copy(formulario = it.formulario.copy(apellidos = v)) } }
+
     fun onNombreChange(nombre: String) {
         _uiState.update {
             it.copy(
@@ -95,7 +98,9 @@ class ClienteViewModel(
             registrarCliente(
                 nombre = formulario.nombre,
                 correo = formulario.correo,
-                telefono = formulario.telefono
+                telefono = formulario.telefono,
+                dni = formulario.dni,
+                apellidos = formulario.apellidos
             ).fold(
                 onSuccess = { cliente ->
                     _uiState.update {

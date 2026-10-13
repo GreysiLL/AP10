@@ -22,6 +22,8 @@ data class ClienteUiState(
 }
 
 data class FormularioCliente(
+    val dni: String = "",
+    val apellidos: String = "",
     val nombre: String = "",
     val correo: String = "",
     val telefono: String = "",

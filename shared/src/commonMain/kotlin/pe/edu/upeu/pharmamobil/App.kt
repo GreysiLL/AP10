@@ -36,6 +36,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.key
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.Composable
@@ -87,9 +94,27 @@ private val ScreenSaver = Saver<Screen, Int>(
 
 @Composable
 fun App() = KoinContext {
+    val vm: pe.edu.upeu.pharmamobil.presentation.sesion.SesionViewModel = koinViewModel()
+    val sesion by vm.sesion.collectAsState()
+    val login by vm.uiState.collectAsState()
+    val aviso by vm.aviso.collectAsState()
+    val activa = sesion
+    if (activa == null) {
+        PharmaMobilTheme(darkTheme = false) {
+            pe.edu.upeu.pharmamobil.presentation.sesion.LoginScreen(login, aviso, vm::usuario, vm::clave, vm::login, vm::restaurar)
+        }
+    } else key(activa.usuario) {
+        val owner = remember { object : ViewModelStoreOwner { override val viewModelStore = ViewModelStore() } }
+        DisposableEffect(owner) { onDispose { owner.viewModelStore.clear() } }
+        CompositionLocalProvider(LocalViewModelStoreOwner provides owner) { AppAutenticada(activa, vm::logout) }
+    }
+}
+
+@Composable
+private fun AppAutenticada(sesion: pe.edu.upeu.pharmamobil.domain.model.Sesion, cerrarSesion: () -> Unit) {
 
     var pantallaActual by rememberSaveable(stateSaver = ScreenSaver) {
-        mutableStateOf<Screen>(Screen.Inicio)
+        mutableStateOf<Screen>(Screen.Productos)
     }
 
     var detalleId by rememberSaveable { mutableStateOf<Long?>(null) }
@@ -124,7 +149,7 @@ fun App() = KoinContext {
                         modifier = Modifier.height(12.dp)
                     )
 
-                    DESTINOS.forEach { destino ->
+                    DESTINOS.filter { it.screen != Screen.Clientes || sesion.puede("CLIENTES_LEER") }.forEach { destino ->
 
                         NavigationDrawerItem(
                             label = {
@@ -157,6 +182,9 @@ fun App() = KoinContext {
                     )
 
                     HorizontalDivider()
+
+                    Text(sesion.nombreCompleto, modifier = Modifier.padding(horizontal = 24.dp))
+                    androidx.compose.material3.TextButton(onClick = cerrarSesion) { Text("Cerrar sesión") }
 
                     ModoOscuro(
                         activo = darkTheme,
@@ -218,7 +246,7 @@ fun App() = KoinContext {
                         Screen.Inicio ->
                             InicioScreen(
                                 onNavegar = { destino ->
-                                    pantallaActual = destino
+                                    if(destino != Screen.Clientes || sesion.puede("CLIENTES_LEER")) pantallaActual = destino
                                 }
                             )
 
@@ -226,7 +254,7 @@ fun App() = KoinContext {
                             val id = detalleId
                             pe.edu.upeu.pharmamobil.platform.AtrasDetalle(id != null) { detalleId = null }
                             if (id == null) ProductoScreen(
-                                viewModel = koinViewModel(), onAbrirDetalle = { detalleId = it }
+                                viewModel = koinViewModel(), puedeEscribir = sesion.puede("CATALOGO_ESCRIBIR"), onAbrirDetalle = { detalleId = it }
                             ) else {
                                 val vm: pe.edu.upeu.pharmamobil.presentation.detalle.DetalleProductoViewModel = koinViewModel()
                                 val estado by vm.uiState.collectAsState()
@@ -241,7 +269,7 @@ fun App() = KoinContext {
                             pe.edu.upeu.pharmamobil.presentation.acerca.AcercaScreen()
 
                         Screen.Clientes ->
-                            ClienteScreen(
+                            if(sesion.puede("CLIENTES_LEER")) ClienteScreen(
                                 viewModel = koinViewModel()
                             )
 
